@@ -1392,6 +1392,235 @@
         padding-inline: 16px;
       }
     }
+
+    /* Dashboard specific styles */
+    .dashboard-view {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      width: 100%;
+      min-height: calc(100vh - 132px);
+    }
+    
+    .dashboard-head {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .dashboard-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+
+    .dashboard-month-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dashboard-month-nav .month-label {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1f355a;
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .dashboard-stats {
+      display: flex;
+      gap: 12px;
+      margin-left: auto;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: #2563eb;
+      line-height: 1.2;
+    }
+    .stat-value.text-accent {
+      color: #10b981;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .dashboard-calendar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dashboard-calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+      padding-bottom: 4px;
+    }
+
+    .dashboard-calendar-weekday {
+      text-align: left;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 700;
+      padding-left: 14px;
+    }
+
+    .calendar-grid-large {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .dashboard-day-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      min-height: 90px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+      transition: all 150ms ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .dashboard-day-card:hover:not(.is-empty) {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .dashboard-day-card.is-empty {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .dashboard-day-card.is-active {
+      border-color: #3b82f6;
+      background: #eff6ff;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.12);
+    }
+    
+    .dashboard-day-card.is-active::after {
+      content: "";
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3b82f6;
+    }
+
+    .day-num {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .dashboard-day-card.is-active .day-num {
+      border-bottom-color: #bfdbfe;
+    }
+
+    .dashboard-day-card.is-weekend .day-num {
+      color: #f59e0b;
+    }
+
+    .day-frac {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: auto;
+    }
+
+    .day-dots {
+      display: flex;
+      gap: 4px;
+      margin-top: 16px;
+    }
+
+    .day-dots .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #e2e8f0;
+    }
+
+    .day-dots .dot.done {
+      background: #3b82f6;
+    }
+
+    .dashboard-legend {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 12px;
+      padding-left: 4px;
+    }
+
+    .dashboard-legend .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.today { background: #3b82f6; }
+    .legend-dot.alldone { background: #10b981; }
+    .legend-dot.weekend { background: #f59e0b; }
+    .legend-dot.pending { background: #94a3b8; }
+    
+    @media (max-width: 1120px) {
+      .dashboard-stats {
+        margin-left: 0;
+        width: 100%;
+      }
+      .calendar-grid-large {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dashboard-calendar-weekdays {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -1940,8 +2169,114 @@
                 </div>
               </div>
 
-              <button class="primary full" type="button">Get My Study Plan ✨</button>
+              <button class="primary full" type="button" id="getPlanFinalBtn">Get My Study Plan ✨</button>
               <p class="footer-note" style="margin-top: 12px;"><em>Your personalized plan is ready</em></p>
+            </div>
+          </section>
+
+          <section class="dashboard-view is-hidden" id="dashboardView">
+            <div class="dashboard-head">
+              <h2 class="dashboard-title">Study Calendar</h2>
+              <div class="dashboard-month-nav">
+                <button class="calendar-nav" type="button">&#8249;</button>
+                <span class="month-label">April 2026</span>
+                <button class="calendar-nav" type="button">&#8250;</button>
+              </div>
+              <div class="dashboard-stats">
+                <div class="stat-card">
+                  <span class="stat-value">3%</span>
+                  <span class="stat-label">MONTH</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-value text-accent">00</span>
+                  <span class="stat-label">COMPLETE DAYS</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-value">30</span>
+                  <span class="stat-label">TOTAL DAYS</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="dashboard-calendar">
+              <div class="dashboard-calendar-weekdays">
+                <span class="dashboard-calendar-weekday">Sun</span>
+                <span class="dashboard-calendar-weekday">Mon</span>
+                <span class="dashboard-calendar-weekday">Tue</span>
+                <span class="dashboard-calendar-weekday">Wed</span>
+                <span class="dashboard-calendar-weekday">Thu</span>
+                <span class="dashboard-calendar-weekday">Fri</span>
+                <span class="dashboard-calendar-weekday">Sat</span>
+              </div>
+              <div class="calendar-grid-large">
+                <!-- Row 1 -->
+                <div class="dashboard-day-card is-empty"></div>
+                <div class="dashboard-day-card is-empty"></div>
+                <div class="dashboard-day-card is-empty"></div>
+                <div class="dashboard-day-card">
+                  <div class="day-num">01</div>
+                  <div class="day-frac">3/4</div>
+                  <div class="day-dots"><span class="dot done"></span><span class="dot done"></span><span class="dot done"></span><span class="dot pending"></span></div>
+                </div>
+                <div class="dashboard-day-card">
+                  <div class="day-num">02</div>
+                  <div class="day-frac">0/4</div>
+                  <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div>
+                </div>
+                <div class="dashboard-day-card is-active">
+                  <div class="day-num">03</div>
+                  <div class="day-frac">0/4</div>
+                  <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div>
+                </div>
+                <div class="dashboard-day-card is-weekend">
+                  <div class="day-num">04</div>
+                  <div class="day-frac">0/3</div>
+                  <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div>
+                </div>
+                <!-- Row 2 -->
+                <div class="dashboard-day-card is-weekend">
+                  <div class="day-num">05</div>
+                  <div class="day-frac">0/3</div>
+                  <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div>
+                </div>
+                <div class="dashboard-day-card"><div class="day-num">06</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">07</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">08</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">09</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">10</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card is-weekend"><div class="day-num">11</div><div class="day-frac">0/3</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+
+                <div class="dashboard-day-card is-weekend"><div class="day-num">12</div><div class="day-frac">0/3</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">13</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">14</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">15</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">16</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">17</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card is-weekend"><div class="day-num">18</div><div class="day-frac">0/3</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+
+                <div class="dashboard-day-card is-weekend"><div class="day-num">19</div><div class="day-frac">0/3</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">20</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">21</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">22</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">23</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">24</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card is-weekend"><div class="day-num">25</div><div class="day-frac">0/3</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+
+                <div class="dashboard-day-card is-weekend"><div class="day-num">26</div><div class="day-frac">0/3</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">27</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">28</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">29</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card"><div class="day-num">30</div><div class="day-frac">0/4</div><div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div></div>
+                <div class="dashboard-day-card is-empty"></div>
+                <div class="dashboard-day-card is-empty"></div>
+              </div>
+              
+              <div class="dashboard-legend">
+                <span class="legend-item"><span class="legend-dot today"></span>Today</span>
+                <span class="legend-item"><span class="legend-dot alldone"></span>All done</span>
+                <span class="legend-item"><span class="legend-dot weekend"></span>Weekend</span>
+                <span class="legend-item"><span class="legend-dot pending"></span>Pending</span>
+              </div>
             </div>
           </section>
         </section>
@@ -2183,6 +2518,15 @@
       document.getElementById('planBuilder').classList.remove('is-hidden');
     });
 
+    const getPlanFinalBtn = document.getElementById('getPlanFinalBtn');
+    const dashboardView = document.getElementById('dashboardView');
+    if (getPlanFinalBtn && dashboardView) {
+      getPlanFinalBtn.addEventListener('click', () => {
+        document.getElementById('planBuilder').classList.add('is-hidden');
+        dashboardView.classList.remove('is-hidden');
+      });
+    }
+
     // Accordion Toggle Logic
     document.querySelectorAll('.accordion-head').forEach((head) => {
       head.addEventListener('click', () => {
@@ -2283,6 +2627,10 @@
       const planBuilder = document.getElementById('planBuilder');
       if (planBuilder) {
         planBuilder.classList.add('is-hidden');
+      }
+      const dashView = document.getElementById('dashboardView');
+      if (dashView) {
+        dashView.classList.add('is-hidden');
       }
     });
   </script>
