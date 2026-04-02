@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CAT Study Planner</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -75,10 +76,10 @@
     }
 
     .sidebar__logo-img {
-      width: 132px;
+      width: 160px;
       height: auto;
       object-fit: contain;
-      max-width: 100%;
+      object-position: left center;
     }
 
     .sidebar__toggle,
@@ -1378,7 +1379,7 @@
     <div class="sidebar-overlay" aria-hidden="true" id="sidebarOverlay"></div>
     <aside class="sidebar" aria-label="Primary navigation" id="sidebarMenu">
       <div class="sidebar__header">
-        <img src="logo.png" alt="Optima Learn Logo" class="sidebar__logo-img" onerror="this.style.display='none'">
+        <img src="assets/optimalearn-logo.svg" alt="Optima Learn Logo" class="sidebar__logo-img">
         
         <button class="sidebar__toggle" type="button" aria-label="Toggle navigation" id="sidebarToggle">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
