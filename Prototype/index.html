@@ -1073,7 +1073,7 @@
       margin: 0;
       line-height: 1.3;
     }
-    
+
     .accordion.expanded .accordion-title {
       color: #2563eb;
     }
@@ -1084,7 +1084,7 @@
       color: #94a3b8;
       margin: 2px 0 0 0;
     }
-    
+
     .accordion.expanded .accordion-subtitle {
       color: #3b82f6;
     }
@@ -1093,6 +1093,7 @@
       color: #94a3b8;
       transition: transform 200ms ease;
     }
+
     .accordion.expanded .chevron {
       color: #2563eb;
       transform: rotate(180deg);
@@ -1102,6 +1103,7 @@
       display: none;
       padding: 0 16px 16px;
     }
+
     .accordion.expanded .accordion-body {
       display: flex;
       flex-direction: column;
@@ -1114,17 +1116,20 @@
       flex-direction: column;
       gap: 8px;
     }
+
     .topic-label {
       font-size: 13px;
       font-weight: 600;
       color: #0f172a;
       line-height: 1.3;
     }
+
     .topic-status-group {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
+
     .topic-status-btn {
       min-height: 42px;
       border-radius: 999px;
@@ -1138,24 +1143,29 @@
       transition: all 150ms ease;
       padding: 0 16px;
     }
+
     .topic-status-btn:hover {
       background: #e2e8f0;
     }
+
     .topic-status-btn.selected {
       font-weight: 700;
     }
+
     .topic-status-btn.level-weak.selected {
       color: #b91c1c;
       background: #fef2f2;
       border-color: #f87171;
       box-shadow: 0 4px 10px rgba(248, 113, 113, 0.15);
     }
+
     .topic-status-btn.level-average.selected {
       color: #b45309;
       background: #fffbeb;
       border-color: #fbbf24;
       box-shadow: 0 4px 10px rgba(251, 191, 36, 0.15);
     }
+
     .topic-status-btn.level-strong.selected {
       color: #047857;
       background: #f0fdf4;
@@ -1172,6 +1182,7 @@
       color: #64748b;
       margin: -8px 0 0;
     }
+
     .routine-subtitle .copy-link {
       background: transparent;
       border: 0;
@@ -1188,11 +1199,13 @@
       margin-top: 10px;
       margin-bottom: 30px;
     }
+
     .slider-row {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
+
     .slider-labels {
       display: flex;
       justify-content: space-between;
@@ -1200,9 +1213,11 @@
       font-weight: 600;
       color: #334155;
     }
+
     .slider-labels .val {
       color: #2563eb;
     }
+
     .routine-slider {
       -webkit-appearance: none;
       appearance: none;
@@ -1213,6 +1228,7 @@
       outline: none;
       cursor: pointer;
     }
+
     .routine-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -1223,6 +1239,7 @@
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
+
     .routine-slider::-moz-range-thumb {
       width: 20px;
       height: 20px;
@@ -1232,10 +1249,12 @@
       border: none;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
+
     .routine-slider::-moz-range-track {
       background: transparent;
       border: none;
     }
+
     .routine-slider::-moz-range-progress {
       background: #2563eb;
       height: 6px;
@@ -1246,15 +1265,18 @@
       .app {
         grid-template-columns: var(--sidebar-collapsed) 1fr;
       }
+
       .sidebar__logo-img,
       .sidebar__item-text,
       .sidebar__badge,
       .sidebar__chevron {
         display: none;
       }
+
       .sidebar__header {
         justify-content: center;
       }
+
       .canvas {
         grid-template-columns: 1fr;
       }
@@ -1375,12 +1397,12 @@
 
 <body>
   <div class="app">
-    
+
     <div class="sidebar-overlay" aria-hidden="true" id="sidebarOverlay"></div>
     <aside class="sidebar" aria-label="Primary navigation" id="sidebarMenu">
       <div class="sidebar__header">
         <img src="assets/optimalearn-logo.svg" alt="Optima Learn Logo" class="sidebar__logo-img">
-        
+
         <button class="sidebar__toggle" type="button" aria-label="Toggle navigation" id="sidebarToggle">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
             stroke-linecap="round">
@@ -1487,16 +1509,26 @@
     </aside>
 
     <div class="content">
-      
+
       <button class="mobile-menu-btn" type="button" aria-label="Open menu" id="mobileMenuBtn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round">
           <path d="M3 12h18M3 6h18M3 18h18" />
         </svg>
       </button>
       <style>
-        .mobile-menu-btn { display: none; background: transparent; padding: 0; margin-right: 12px; color: #10213a; }
+        .mobile-menu-btn {
+          display: none;
+          background: transparent;
+          padding: 0;
+          margin-right: 12px;
+          color: #10213a;
+        }
+
         @media (max-width: 760px) {
-          .mobile-menu-btn { display: block; }
+          .mobile-menu-btn {
+            display: block;
+          }
         }
       </style>
       <header class="topbar">
@@ -1659,7 +1691,8 @@
                 <h3 class="q-title">3. When do you want to begin?</h3>
                 <div class="date-wrap">
                   <div class="chip-row chip-row-3" role="group" aria-label="Start date options">
-                    <button class="chip selected" type="button" data-group="startDate" data-value="today">Start Today ⚡</button>
+                    <button class="chip selected" type="button" data-group="startDate" data-value="today">Start Today
+                      ⚡</button>
                     <button class="chip" type="button" data-group="startDate" data-value="tomorrow">Start
                       Tomorrow 🙂</button>
                     <button class="chip" type="button" id="pickDateBtn" data-group="startDate"
@@ -1689,21 +1722,26 @@
             </div>
 
             <footer class="onboarding-footer">
-              <button class="primary full" type="button" id="generatePlanCta" disabled>Generate My Study Plan ✨</button>
+              <button class="primary full" type="button" id="generatePlanCta" disabled>Let’s Build Your Study Plan
+                🛠️</button>
+              <p class="footer-note"><em>Just 1 more step to finalize your plan</em></p>
             </footer>
           </section>
 
           <section class="plan-builder is-hidden" id="planBuilder">
             <div class="config-col-card">
               <h2 class="config-col-title">Quant</h2>
-              
+
               <div class="accordion expanded">
                 <div class="accordion-head" tabindex="0">
                   <div>
                     <h3 class="accordion-title">Arithmetics</h3>
                     <p class="accordion-subtitle">1 chapter marked</p>
                   </div>
-                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
                 <div class="accordion-body">
                   <div class="topic-row">
@@ -1747,7 +1785,10 @@
                     <h3 class="accordion-title">Time and Work</h3>
                     <p class="accordion-subtitle">0 chapters marked</p>
                   </div>
-                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
               </div>
 
@@ -1757,21 +1798,27 @@
                     <h3 class="accordion-title">Algebra</h3>
                     <p class="accordion-subtitle">0 chapters marked</p>
                   </div>
-                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
               </div>
             </div>
 
             <div class="config-col-card">
               <h2 class="config-col-title">VARC</h2>
-              
+
               <div class="accordion expanded">
                 <div class="accordion-head" tabindex="0">
                   <div>
                     <h3 class="accordion-title">Reading Comprehension</h3>
                     <p class="accordion-subtitle">0 chapters marked</p>
                   </div>
-                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
                 <div class="accordion-body">
                   <div class="topic-row">
@@ -1791,28 +1838,36 @@
                     <h3 class="accordion-title">Verbal Ability</h3>
                     <p class="accordion-subtitle">0 chapters marked</p>
                   </div>
-                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
               </div>
             </div>
 
             <div class="config-col-card">
               <h2 class="config-col-title">DILR</h2>
-              
+
               <!-- NEW: DILR Study Order Question -->
               <h3 class="q-title">How would you like to study DILR?</h3>
               <div class="chip-row" role="group" aria-label="DILR study order options">
-                <button class="chip selected" type="button" data-group="dilrOrder" data-value="logic-first">Logic first<br>(LR → DI)</button>
-                <button class="chip" type="button" data-group="dilrOrder" data-value="data-first">Data first<br>(DI → LR)</button>
+                <button class="chip selected" type="button" data-group="dilrOrder" data-value="logic-first">Logic
+                  first<br>(LR → DI)</button>
+                <button class="chip" type="button" data-group="dilrOrder" data-value="data-first">Data first<br>(DI →
+                  LR)</button>
               </div>
-              
+
               <div class="accordion expanded">
                 <div class="accordion-head" tabindex="0">
                   <div>
                     <h3 class="accordion-title">Data Interpretation</h3>
                     <p class="accordion-subtitle">0 chapters marked</p>
                   </div>
-                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
                 <div class="accordion-body">
                   <div class="topic-row">
@@ -1832,7 +1887,10 @@
                     <h3 class="accordion-title">Logical Reasoning</h3>
                     <p class="accordion-subtitle">0 chapters marked</p>
                   </div>
-                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
               </div>
             </div>
@@ -1846,36 +1904,43 @@
 
               <div class="sliders-wrap">
                 <div class="slider-row">
-                  <div class="slider-labels"><span class="day">Monday</span><span class="val" id="valMon">4h</span></div>
+                  <div class="slider-labels"><span class="day">Monday</span><span class="val" id="valMon">4h</span>
+                  </div>
                   <input type="range" class="routine-slider" min="0" max="12" value="4" data-output="valMon">
                 </div>
                 <div class="slider-row">
-                  <div class="slider-labels"><span class="day">Tuesday</span><span class="val" id="valTue">4h</span></div>
+                  <div class="slider-labels"><span class="day">Tuesday</span><span class="val" id="valTue">4h</span>
+                  </div>
                   <input type="range" class="routine-slider" min="0" max="12" value="4" data-output="valTue">
                 </div>
                 <div class="slider-row">
-                  <div class="slider-labels"><span class="day">Wednesday</span><span class="val" id="valWed">4h</span></div>
+                  <div class="slider-labels"><span class="day">Wednesday</span><span class="val" id="valWed">4h</span>
+                  </div>
                   <input type="range" class="routine-slider" min="0" max="12" value="4" data-output="valWed">
                 </div>
                 <div class="slider-row">
-                  <div class="slider-labels"><span class="day">Thursday</span><span class="val" id="valThu">4h</span></div>
+                  <div class="slider-labels"><span class="day">Thursday</span><span class="val" id="valThu">4h</span>
+                  </div>
                   <input type="range" class="routine-slider" min="0" max="12" value="4" data-output="valThu">
                 </div>
                 <div class="slider-row">
-                  <div class="slider-labels"><span class="day">Friday</span><span class="val" id="valFri">4h</span></div>
+                  <div class="slider-labels"><span class="day">Friday</span><span class="val" id="valFri">4h</span>
+                  </div>
                   <input type="range" class="routine-slider" min="0" max="12" value="4" data-output="valFri">
                 </div>
                 <div class="slider-row">
-                  <div class="slider-labels"><span class="day">Saturday</span><span class="val" id="valSat">4h</span></div>
+                  <div class="slider-labels"><span class="day">Saturday</span><span class="val" id="valSat">4h</span>
+                  </div>
                   <input type="range" class="routine-slider" min="0" max="12" value="4" data-output="valSat">
                 </div>
                 <div class="slider-row">
-                  <div class="slider-labels"><span class="day">Sunday</span><span class="val" id="valSun">4h</span></div>
+                  <div class="slider-labels"><span class="day">Sunday</span><span class="val" id="valSun">4h</span>
+                  </div>
                   <input type="range" class="routine-slider" min="0" max="12" value="4" data-output="valSun">
                 </div>
               </div>
 
-              <button class="primary full" type="button">Generate My Plan</button>
+              <button class="primary full" type="button">Generate My Plan ✨</button>
             </div>
           </section>
         </section>
@@ -2153,7 +2218,7 @@
     });
 
     // Copy function exposed
-    window.copyToAllSliders = function() {
+    window.copyToAllSliders = function () {
       const allSliders = document.querySelectorAll('.routine-slider');
       const baseValue = allSliders[0].value;
       const max = allSliders[0].getAttribute('max') || 12;
@@ -2166,7 +2231,7 @@
       });
     };
 
-    
+
     // Sidebar toggle logic
     const appEl = document.querySelector('.app');
     const sidebarToggle = document.getElementById('sidebarToggle');
@@ -2202,7 +2267,7 @@
         document.querySelectorAll('.sidebar__item').forEach(btn => btn.classList.remove('is-active'));
         // Add active state to clicked item
         item.classList.add('is-active');
-        
+
         // Auto-close drawer on mobile when an item is selected
         if (window.innerWidth <= 760) {
           appEl.classList.remove('drawer-open');
