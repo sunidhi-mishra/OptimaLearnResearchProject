@@ -2194,7 +2194,22 @@
         appEl.classList.remove('drawer-open');
       });
     }
-    
+
+    // Sidebar item active state logic
+    document.querySelectorAll('.sidebar__item').forEach((item) => {
+      item.addEventListener('click', () => {
+        // Remove active state from all items
+        document.querySelectorAll('.sidebar__item').forEach(btn => btn.classList.remove('is-active'));
+        // Add active state to clicked item
+        item.classList.add('is-active');
+        
+        // Auto-close drawer on mobile when an item is selected
+        if (window.innerWidth <= 760) {
+          appEl.classList.remove('drawer-open');
+        }
+      });
+    });
+
     // Home navigation
     document.getElementById('pageTitleHome').addEventListener('click', () => {
       heroCard.classList.remove('is-hidden');
