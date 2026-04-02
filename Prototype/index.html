@@ -18,7 +18,8 @@
       --accent: #1377ff;
       --shadow: 0 20px 50px rgba(24, 49, 87, 0.08);
       --shadow-soft: 0 10px 30px rgba(24, 49, 87, 0.06);
-      --sidebar: 76px;
+      --sidebar: 260px;
+      --sidebar-collapsed: 76px;
       --topbar: 74px;
       --radius-lg: 22px;
     }
@@ -55,25 +56,71 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      padding: 14px 0;
+      padding: 12px 10px;
       background: rgba(255, 255, 255, 0.82);
       backdrop-filter: blur(14px);
       border-right: 1px solid rgba(130, 149, 182, 0.14);
       display: flex;
       flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+
+    .sidebar__header {
+      display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 10px;
+      padding: 4px 4px 8px;
+    }
+
+    .sidebar__logo-img {
+      width: 132px;
+      height: auto;
+      object-fit: contain;
+      max-width: 100%;
     }
 
     .sidebar__toggle,
     .sidebar__item {
-      width: 36px;
-      height: 36px;
+      width: 100%;
+      min-height: 42px;
       border-radius: 12px;
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 0 10px;
       color: #7c8da9;
       background: transparent;
+    }
+
+    .sidebar__toggle {
+      width: 36px;
+      min-height: 36px;
+      justify-content: center;
+      padding: 0;
+      margin-left: auto;
+      flex: 0 0 auto;
+    }
+
+    .sidebar__item-text {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.1;
+      color: inherit;
+      white-space: nowrap;
+    }
+
+    .sidebar__badge {
+      margin-left: auto;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.12);
+      color: #2563eb;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
     }
 
     .sidebar__item.is-active {
@@ -84,6 +131,38 @@
 
     .sidebar__spacer {
       height: 8px;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+      z-index: 25;
+    }
+
+    .app.is-collapsed {
+      grid-template-columns: var(--sidebar-collapsed) 1fr;
+    }
+
+    .app.is-collapsed .sidebar__logo-img,
+    .app.is-collapsed .sidebar__item-text,
+    .app.is-collapsed .sidebar__badge {
+      display: none;
+    }
+
+    .app.is-collapsed .sidebar__header {
+      justify-content: center;
+      padding-inline: 0;
+    }
+
+    .app.is-collapsed .sidebar__item {
+      width: 44px;
+      justify-content: center;
+      padding: 0;
+      margin-inline: auto;
     }
 
     .content {
@@ -1127,10 +1206,11 @@
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 4px;
-      background: #e2e8f0;
-      border-radius: 2px;
+      height: 6px;
+      background: linear-gradient(to right, #2563eb 0%, #2563eb var(--value), #e2e8f0 var(--value), #e2e8f0 100%);
+      border-radius: 3px;
       outline: none;
+      cursor: pointer;
     }
     .routine-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -1140,11 +1220,40 @@
       border-radius: 50%;
       background: #2563eb;
       cursor: pointer;
-      border: 3px solid white;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+    .routine-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #2563eb;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+    .routine-slider::-moz-range-track {
+      background: transparent;
+      border: none;
+    }
+    .routine-slider::-moz-range-progress {
+      background: #2563eb;
+      height: 6px;
+      border-radius: 3px;
     }
 
     @media (max-width: 1120px) {
+      .app {
+        grid-template-columns: var(--sidebar-collapsed) 1fr;
+      }
+      .sidebar__logo-img,
+      .sidebar__item-text,
+      .sidebar__badge,
+      .sidebar__chevron {
+        display: none;
+      }
+      .sidebar__header {
+        justify-content: center;
+      }
       .canvas {
         grid-template-columns: 1fr;
       }
@@ -1157,13 +1266,35 @@
 
       .sidebar {
         position: fixed;
-        z-index: 20;
-        inset: auto 0 0 0;
-        height: 68px;
-        flex-direction: row;
-        justify-content: space-around;
-        border-right: 0;
-        border-top: 1px solid rgba(130, 149, 182, 0.14);
+        z-index: 30;
+        inset: 0 auto 0 0;
+        height: 100vh;
+        width: min(280px, 84vw);
+        transform: translateX(-100%);
+        transition: transform 220ms ease;
+        border-right: 1px solid rgba(130, 149, 182, 0.14);
+      }
+
+      .app.drawer-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .app.drawer-open .sidebar-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .sidebar__logo-img,
+      .sidebar__item-text,
+      .sidebar__badge {
+        display: inline;
+      }
+
+      .sidebar__item {
+        width: 100%;
+        margin-inline: 0;
+        justify-content: flex-start;
+        padding: 0 10px;
       }
 
       .topbar {
@@ -1243,52 +1374,70 @@
 
 <body>
   <div class="app">
-    <aside class="sidebar" aria-label="Primary navigation">
-      <button class="sidebar__toggle" type="button" aria-label="Toggle navigation">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
-          stroke-linecap="round">
-          <path d="M4 4.5h12" />
-          <path d="M4 10h12" />
-          <path d="M4 15.5h12" />
-        </svg>
-      </button>
+    
+    <div class="sidebar-overlay" aria-hidden="true" id="sidebarOverlay"></div>
+    <aside class="sidebar" aria-label="Primary navigation" id="sidebarMenu">
+      <div class="sidebar__header">
+        <img src="logo.png" alt="Optima Learn Logo" class="sidebar__logo-img" onerror="this.style.display='none'">
+        
+        <button class="sidebar__toggle" type="button" aria-label="Toggle navigation" id="sidebarToggle">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round">
+            <path d="M4 4.5h12" />
+            <path d="M4 10h12" />
+            <path d="M4 15.5h12" />
+          </svg>
+        </button>
+      </div>
+
       <div class="sidebar__spacer"></div>
+
       <button class="sidebar__item" type="button" aria-label="Home">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9.2 10 3l7 6.2" />
           <path d="M5.5 8.8V17h9V8.8" />
         </svg>
+        <span class="sidebar__item-text">Home</span>
       </button>
+
       <button class="sidebar__item is-active" type="button" aria-label="Study planner">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="14" height="13" rx="2.3" />
           <path d="M6 2.8v3.2M14 2.8v3.2M3 8.2h14" />
         </svg>
+        <span class="sidebar__item-text">Planner</span>
       </button>
-      <button class="sidebar__item" type="button" aria-label="Library">
+
+      <button class="sidebar__item" type="button" aria-label="Subjects">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 4.5h10M5 10h10M5 15.5h10" />
           <path d="M4 4.5v11" />
         </svg>
+        <span class="sidebar__item-text">Subjects</span>
       </button>
-      <button class="sidebar__item" type="button" aria-label="Tasks">
+
+      <button class="sidebar__item" type="button" aria-label="Quiz Builder">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M4.5 4.5h11v11h-11z" />
           <path d="m7 9.8 1.7 1.8 4.3-4.5" />
         </svg>
+        <span class="sidebar__item-text">Quiz Builder</span>
       </button>
-      <button class="sidebar__item" type="button" aria-label="Notes">
+
+      <button class="sidebar__item" type="button" aria-label="RC Verse">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 3.8h8l2 2V16H5z" />
           <path d="M8 3.8v4h4" />
         </svg>
+        <span class="sidebar__item-text">RC Verse</span>
       </button>
-      <button class="sidebar__item" type="button" aria-label="Analytics">
+
+      <button class="sidebar__item" type="button" aria-label="Progress Report">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 15.5h12" />
@@ -1296,37 +1445,59 @@
           <path d="M10 13V5.8" />
           <path d="M14 13v-6.5" />
         </svg>
+        <span class="sidebar__item-text">Progress Report</span>
       </button>
-      <button class="sidebar__item" type="button" aria-label="Schedule">
+
+      <button class="sidebar__item" type="button" aria-label="Test History">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <circle cx="10" cy="10" r="6.2" />
           <path d="M10 6.8V10l2.3 1.6" />
         </svg>
+        <span class="sidebar__item-text">Test History</span>
       </button>
+
       <button class="sidebar__item" type="button" aria-label="Bookmarks">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 3.8h8v12l-4-2.4-4 2.4z" />
         </svg>
+        <span class="sidebar__item-text">Bookmarks</span>
       </button>
-      <button class="sidebar__item" type="button" aria-label="Archive">
+
+      <button class="sidebar__item" type="button" aria-label="PYQs">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 5h12v3H4z" />
           <path d="M5.5 8v7h9V8" />
           <path d="M8 10.8h4" />
         </svg>
+        <span class="sidebar__item-text">PYQs</span>
       </button>
-      <button class="sidebar__item" type="button" aria-label="Messages">
+
+      <button class="sidebar__item" type="button" aria-label="GDPI">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 4.8h12v8H8.5L5 16v-3.2H4z" />
         </svg>
+        <span class="sidebar__item-text">GDPI</span>
+        <span class="sidebar__badge">New</span>
       </button>
     </aside>
 
     <div class="content">
+      
+      <button class="mobile-menu-btn" type="button" aria-label="Open menu" id="mobileMenuBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 12h18M3 6h18M3 18h18" />
+        </svg>
+      </button>
+      <style>
+        .mobile-menu-btn { display: none; background: transparent; padding: 0; margin-right: 12px; color: #10213a; }
+        @media (max-width: 760px) {
+          .mobile-menu-btn { display: block; }
+        }
+      </style>
       <header class="topbar">
         <div class="crumbs" aria-label="Breadcrumb">
           <span class="crumbs__home" aria-hidden="true">
@@ -1537,9 +1708,9 @@
                   <div class="topic-row">
                     <span class="topic-label">Averages</span>
                     <div class="topic-status-group" role="group">
-                      <button type="button" class="topic-status-btn level-weak">Not Started</button>
+                      <button type="button" class="topic-status-btn level-weak selected">Not Started</button>
                       <button type="button" class="topic-status-btn level-average">Started</button>
-                      <button type="button" class="topic-status-btn level-strong selected">Completed</button>
+                      <button type="button" class="topic-status-btn level-strong">Completed</button>
                     </div>
                   </div>
                   <div class="topic-row">
@@ -1626,6 +1797,13 @@
 
             <div class="config-col-card">
               <h2 class="config-col-title">DILR</h2>
+              
+              <!-- NEW: DILR Study Order Question -->
+              <h3 class="q-title">How would you like to study DILR?</h3>
+              <div class="chip-row" role="group" aria-label="DILR study order options">
+                <button class="chip selected" type="button" data-group="dilrOrder" data-value="logic-first">Logic first<br>(LR → DI)</button>
+                <button class="chip" type="button" data-group="dilrOrder" data-value="data-first">Data first<br>(DI → LR)</button>
+              </div>
               
               <div class="accordion expanded">
                 <div class="accordion-head" tabindex="0">
@@ -1960,21 +2138,62 @@
     document.querySelectorAll('.routine-slider').forEach((slider) => {
       slider.addEventListener('input', (e) => {
         const outId = slider.getAttribute('data-output');
-        document.getElementById(outId).textContent = e.target.value + 'h';
+        const max = e.target.max || 12;
+        const value = e.target.value;
+        const percentage = (value / max) * 100;
+        slider.style.setProperty('--value', percentage + '%');
+        document.getElementById(outId).textContent = value + 'h';
       });
+      // Initialize on load
+      const max = slider.getAttribute('max') || 12;
+      const value = slider.getAttribute('value') || 0;
+      const percentage = (value / max) * 100;
+      slider.style.setProperty('--value', percentage + '%');
     });
 
     // Copy function exposed
     window.copyToAllSliders = function() {
       const allSliders = document.querySelectorAll('.routine-slider');
       const baseValue = allSliders[0].value;
+      const max = allSliders[0].getAttribute('max') || 12;
+      const percentage = (baseValue / max) * 100;
       allSliders.forEach(slider => {
         slider.value = baseValue;
+        slider.style.setProperty('--value', percentage + '%');
         const outId = slider.getAttribute('data-output');
         document.getElementById(outId).textContent = baseValue + 'h';
       });
     };
 
+    
+    // Sidebar toggle logic
+    const appEl = document.querySelector('.app');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+    sidebarToggle.addEventListener('click', () => {
+      // If mobile, close the drawer
+      if (window.innerWidth <= 760) {
+        appEl.classList.remove('drawer-open');
+      } else {
+        // Desktop / Tablet toggle
+        appEl.classList.toggle('is-collapsed');
+      }
+    });
+
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        appEl.classList.add('drawer-open');
+      });
+    }
+
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', () => {
+        appEl.classList.remove('drawer-open');
+      });
+    }
+    
     // Home navigation
     document.getElementById('pageTitleHome').addEventListener('click', () => {
       heroCard.classList.remove('is-hidden');
