@@ -2164,7 +2164,27 @@
       font-size: 12px;
       font-weight: 600;
       color: #94a3b8;
+      margin-top: 8px;
       margin-bottom: auto;
+    }
+
+    .day-progress {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 3px;
+      margin-top: 2px;
+      min-height: 4px;
+    }
+
+    .day-progress-segment {
+      height: 3px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      transition: background-color 0.2s ease;
+    }
+
+    .day-progress-segment.is-active {
+      background: #4f46e5;
     }
 
     .day-dots {
@@ -2182,6 +2202,18 @@
 
     .day-dots .dot.done {
       background: #3b82f6;
+    }
+
+    .day-dots .dot.dot-tag-varc {
+      background: #f59e0b;
+    }
+
+    .day-dots .dot.dot-tag-quant {
+      background: #8b5cf6;
+    }
+
+    .day-dots .dot.dot-tag-dilr {
+      background: #10b981;
     }
 
     .dashboard-legend {
@@ -3674,7 +3706,35 @@
       return isWeekendDate(dateObj) ? weekendTasks : weekdayTasks;
     }
 
+    const MAX_DASHBOARD_DOTS = 3;
     let bindTodayPlanTasks = () => {};
+
+    function getUniqueTagCountFromTasks(tasks) {
+      const uniqueTags = new Set(
+        tasks
+          .map((task) => String(task.tagLabel || '').trim().toUpperCase())
+          .filter(Boolean),
+      );
+
+      return Math.min(MAX_DASHBOARD_DOTS, uniqueTags.size);
+    }
+
+    function getUniqueTagKeysFromTasks(tasks) {
+      const orderedTags = [];
+      const seenTags = new Set();
+
+      tasks.forEach((task) => {
+        const tagKey = String(task.tagLabel || '').trim().toUpperCase();
+        if (!tagKey || seenTags.has(tagKey)) {
+          return;
+        }
+
+        seenTags.add(tagKey);
+        orderedTags.push(tagKey);
+      });
+
+      return orderedTags.slice(0, MAX_DASHBOARD_DOTS);
+    }
 
     function createPlanTaskHtml(task) {
       return `
@@ -3724,7 +3784,10 @@
         const dayNumber = index - firstWeekday + 1;
         const cellDate = new Date(year, month, dayNumber);
         const isWeekend = isWeekendDate(cellDate);
+        const dayTasks = getTaskTemplatesForDate(cellDate);
         const totalTasks = getDashboardDayTotal(cellDate);
+        const dotCount = getUniqueTagCountFromTasks(dayTasks);
+        const dotTags = getUniqueTagKeysFromTasks(dayTasks);
         const dayIso = formatIso(cellDate);
 
         card = document.createElement('button');
@@ -3732,6 +3795,8 @@
         card.className = 'dashboard-day-card';
         card.dataset.date = dayIso;
         card.dataset.totalTasks = String(totalTasks);
+        card.dataset.dotCount = String(dotCount);
+        card.dataset.dotTags = dotTags.join(',');
         card.setAttribute('aria-label', `${cellDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}`);
 
         if (isWeekend) {
@@ -3746,8 +3811,14 @@
 
         card.innerHTML = `
           <div class="day-num">${String(dayNumber).padStart(2, '0')}</div>
+          <div class="day-progress">
+            <span class="day-progress-segment"></span>
+            <span class="day-progress-segment"></span>
+            <span class="day-progress-segment"></span>
+            <span class="day-progress-segment"></span>
+          </div>
           <div class="day-frac">0/${totalTasks}</div>
-          <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div>
+          <div class="day-dots">${'<span class="dot pending"></span>'.repeat(dotCount)}</div>
         `;
 
         card.addEventListener('click', () => {
@@ -3914,7 +3985,89 @@
       const totalStatValue = document.querySelector('.panel-stat-val.total');
       const leftStatValue = document.querySelector('.panel-stat-val.left');
       const todaysPlanMicrocopy = document.getElementById('todaysPlanMicrocopy');
-      const DOTS_PER_DAY_CARD = 3;
+      const streakStatValue = document.querySelector('.streak-stat-value');
+      const DOTS_PER_DAY_CARD = MAX_DASHBOARD_DOTS;
+      
+      let streakCount = 0;
+      let streakDateCredit = null;
+      const TAG_DOT_CLASS_MAP = {
+        VARC: 'dot-tag-varc',
+        QUANT: 'dot-tag-quant',
+        DILR: 'dot-tag-dilr',
+      };
+
+      function normalizeTagKey(value) {
+        return String(value || '').trim().toUpperCase();
+      }
+
+      function setDayCardDots(card, dotCount) {
+        const dotsWrap = card?.querySelector('.day-dots');
+        if (!dotsWrap) return;
+
+        const safeDotCount = Math.max(0, Math.min(DOTS_PER_DAY_CARD, dotCount));
+        card.dataset.dotCount = String(safeDotCount);
+
+        const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+        if (dots.length > safeDotCount) {
+          dots.slice(safeDotCount).forEach((dot) => dot.remove());
+        }
+
+        if (dots.length < safeDotCount) {
+          const missingCount = safeDotCount - dots.length;
+          for (let i = 0; i < missingCount; i += 1) {
+            const dot = document.createElement('span');
+            dot.className = 'dot pending';
+            dotsWrap.appendChild(dot);
+          }
+        }
+      }
+
+      function getSelectedPlanUniqueTagCount() {
+        if (!todayPlanTasksWrap) {
+          return DOTS_PER_DAY_CARD;
+        }
+
+        const uniqueTags = new Set(
+          Array.from(todayPlanTasksWrap.querySelectorAll('.subject-tag'))
+            .map((tag) => tag.textContent.trim().toUpperCase())
+            .filter(Boolean),
+        );
+
+        return Math.min(DOTS_PER_DAY_CARD, uniqueTags.size);
+      }
+
+      function getSelectedPlanTagCompletionSummary() {
+        const tagsInOrder = [];
+        const tagCompletionMap = new Map();
+
+        panelItems.forEach((item) => {
+          const sectionId = item.dataset.sectionId;
+          if (!sectionId) {
+            return;
+          }
+
+          const tagLabel = item.querySelector('.subject-tag')?.textContent;
+          const tagKey = normalizeTagKey(tagLabel);
+          if (!tagKey) {
+            return;
+          }
+
+          if (!tagCompletionMap.has(tagKey)) {
+            tagCompletionMap.set(tagKey, []);
+            tagsInOrder.push(tagKey);
+          }
+
+          tagCompletionMap.get(tagKey).push(getSectionCompletion(sectionId));
+        });
+
+        return tagsInOrder.slice(0, DOTS_PER_DAY_CARD).map((tagKey) => {
+          const completions = tagCompletionMap.get(tagKey) || [];
+          return {
+            tagKey,
+            isComplete: completions.length > 0 && completions.every(Boolean),
+          };
+        });
+      }
 
       function initializeSectionState(sectionId, taskCount) {
         if (sectionStore.has(sectionId)) return;
@@ -3950,21 +4103,26 @@
       }
 
       function normalizeDashboardDots() {
-        document.querySelectorAll('.dashboard-day-card .day-dots').forEach((dotsWrap) => {
-          const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+        document.querySelectorAll('.dashboard-day-card:not(.is-empty)').forEach((card) => {
+          const desiredDotCount = Number(card.dataset.dotCount || DOTS_PER_DAY_CARD);
+          setDayCardDots(card, desiredDotCount);
+        });
+      }
 
-          if (dots.length > DOTS_PER_DAY_CARD) {
-            dots.slice(DOTS_PER_DAY_CARD).forEach((dot) => dot.remove());
-          }
+      function getProgressBarSteps(progress) {
+        if (progress <= 0) return 0;
+        if (progress < 30) return 1;
+        if (progress < 70) return 2;
+        if (progress < 100) return 3;
+        return 4;
+      }
 
-          if (dots.length < DOTS_PER_DAY_CARD) {
-            const missingCount = DOTS_PER_DAY_CARD - dots.length;
-            for (let i = 0; i < missingCount; i += 1) {
-              const dot = document.createElement('span');
-              dot.className = 'dot pending';
-              dotsWrap.appendChild(dot);
-            }
-          }
+      function setDayCardProgressSteps(card, steps) {
+        const segments = Array.from(card?.querySelectorAll('.day-progress-segment') || []);
+        const safeSteps = Math.max(0, Math.min(4, steps));
+
+        segments.forEach((segment, index) => {
+          segment.classList.toggle('is-active', index < safeSteps);
         });
       }
 
@@ -3979,9 +4137,25 @@
           dayFraction.textContent = `${metrics.completedTasks}/${metrics.totalTasks}`;
         }
 
+        setDayCardProgressSteps(selectedCard, getProgressBarSteps(metrics.progress));
+
+        const tagSummary = getSelectedPlanTagCompletionSummary();
+        const fallbackDotCount = getSelectedPlanUniqueTagCount();
+        setDayCardDots(selectedCard, tagSummary.length || fallbackDotCount);
+
         const dots = Array.from(selectedCard.querySelectorAll('.day-dots .dot'));
         dots.forEach((dot, index) => {
-          dot.classList.toggle('done', index < metrics.completedTasks);
+          dot.classList.remove('done', 'dot-tag-varc', 'dot-tag-quant', 'dot-tag-dilr');
+
+          const tagInfo = tagSummary[index];
+          if (!tagInfo || !tagInfo.isComplete) {
+            return;
+          }
+
+          const dotClass = TAG_DOT_CLASS_MAP[tagInfo.tagKey];
+          if (dotClass) {
+            dot.classList.add(dotClass);
+          }
         });
       }
 
@@ -4033,7 +4207,37 @@
           todaysPlanMicrocopy.textContent = getTodaysPlanMicrocopy(metrics.progress, metrics.completedTasks);
         }
 
+        // Update streak if we're viewing today and at least one task is completed
+        if (dashboardState && dashboardState.selectedDate) {
+          updateStreakIfNeeded(dashboardState.selectedDate);
+        }
+
         updateSelectedDayProgress(metrics);
+      }
+
+      function updateStreakIfNeeded(selectedDateObj) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const selectedDate = new Date(selectedDateObj);
+        selectedDate.setHours(0, 0, 0, 0);
+        
+        // Check if we're viewing today
+        if (selectedDate.getTime() === today.getTime()) {
+          // Check if at least one task is completed today
+          const metrics = getProgressMetrics();
+          const todayDateString = formatIso(today);
+          
+          // Only increment streak once per day
+          if (metrics.completedTasks > 0 && streakDateCredit !== todayDateString) {
+            streakCount += 1;
+            streakDateCredit = todayDateString;
+            
+            if (streakStatValue) {
+              streakStatValue.textContent = String(streakCount);
+            }
+          }
+        }
       }
 
       function updateSectionCardUI(sectionId, sectionCard, dialogHeaderCheckbox) {
