@@ -934,44 +934,7 @@
       color: #475569;
     }
 
-    .level-chip {
-      min-height: 42px;
-      border-radius: 999px;
-      border: 1px solid #cbd5e1;
-      background: #f1f5f9;
-      color: #334155;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 150ms ease;
-    }
-
-    .level-chip:hover {
-      background: #e2e8f0;
-    }
-
-    .level-chip.level-weak.selected {
-      color: #b91c1c;
-      background: #fef2f2;
-      border-color: #f87171;
-      font-weight: 700;
-      box-shadow: 0 4px 10px rgba(248, 113, 113, 0.15);
-    }
-
-    .level-chip.level-average.selected {
-      color: #b45309;
-      background: #fffbeb;
-      border-color: #fbbf24;
-      font-weight: 700;
-      box-shadow: 0 4px 10px rgba(251, 191, 36, 0.15);
-    }
-
-    .level-chip.level-strong.selected {
-      color: #047857;
-      background: #f0fdf4;
-      border-color: #34d399;
-      font-weight: 700;
-      box-shadow: 0 4px 10px rgba(52, 211, 153, 0.15);
-    }
+    /* Consolidated to shared .topic-status-btn status pill UI below */
 
     .onboarding-footer {
       background: transparent;
@@ -1130,8 +1093,9 @@
       gap: 8px;
     }
 
+    /* Unified Pill Components */
+    .level-chip,
     .topic-status-btn {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1140,22 +1104,33 @@
       border: 1px solid #e2e8f0;
       background: #ffffff;
       color: #64748b;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       white-space: nowrap;
-      padding: 0 8px;
+      padding: 0 16px;
       cursor: pointer;
       transition: all 150ms ease;
     }
 
-    .topic-status-btn:hover {
-      background: #f8fafc;
+    .topic-status-btn {
+      flex: 1;
+      padding: 0 8px;
+      font-size: 12px;
     }
 
+    .level-chip:hover,
+    .topic-status-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .level-chip.selected,
     .topic-status-btn.selected {
       font-weight: 700;
     }
 
+    /* Semantic State Mappings */
+    .level-chip.level-weak.selected,
     .topic-status-btn.level-weak.selected {
       color: #dc2626;
       background: #fef2f2;
@@ -1163,18 +1138,20 @@
       box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
     }
 
+    .level-chip.level-average.selected,
     .topic-status-btn.level-average.selected {
-      color: #334155;
-      background: #f1f5f9;
-      border-color: #cbd5e1;
-      box-shadow: 0 2px 8px rgba(148, 163, 184, 0.1);
+      color: #b45309;
+      background: #fffbeb;
+      border-color: #fcd34d;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);
     }
 
+    .level-chip.level-strong.selected,
     .topic-status-btn.level-strong.selected {
-      color: #ffffff;
-      background: #10b981;
-      border-color: #10b981;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+      color: #059669;
+      background: #ecfdf5;
+      border-color: #6ee7b7;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
     }
 
     /* Routine block */
@@ -3189,7 +3166,7 @@
               <div class="panel-scroll-area">
                 <div>
                   <h4 class="panel-section-title panel-section-title--primary">🚀 Today’s Plan </h4>
-                  <p style="margin: -4px 0 12px; font-size: 12px; color: #64748b;">Start today. Even 30 mins makes a difference.</p>
+                  <p id="todaysPlanMicrocopy" style="margin: -4px 0 12px; font-size: 12px; color: #64748b;">Start today. Even 30 mins makes a difference.</p>
                   <div class="panel-tasks">
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
                       <span class="task-marker" aria-hidden="true"></span>
@@ -3844,6 +3821,7 @@
       const doneStatValue = document.querySelector('.panel-stat-val.done');
       const totalStatValue = document.querySelector('.panel-stat-val.total');
       const leftStatValue = document.querySelector('.panel-stat-val.left');
+      const todaysPlanMicrocopy = document.getElementById('todaysPlanMicrocopy');
       const DOTS_PER_DAY_CARD = 3;
 
       function initializeSectionState(sectionId, taskCount) {
@@ -3915,6 +3893,26 @@
         });
       }
 
+      function getTodaysPlanMicrocopy(progress, completedTasks) {
+        if (completedTasks === 0 || progress === 0) {
+          return 'Start today. Even 30 mins makes a difference.';
+        }
+
+        if (progress < 30) {
+          return 'Good start. Keep the momentum going.';
+        }
+
+        if (progress < 70) {
+          return "You're making solid progress. Keep pushing.";
+        }
+
+        if (progress < 100) {
+          return 'Almost there. Finish strong 💪';
+        }
+
+        return 'Great job! You’ve completed today’s plan 🎉';
+      }
+
       function refreshProgressUI() {
         normalizeDashboardDots();
         const metrics = getProgressMetrics();
@@ -3937,6 +3935,10 @@
 
         if (leftStatValue) {
           leftStatValue.textContent = String(metrics.leftTasks);
+        }
+
+        if (todaysPlanMicrocopy) {
+          todaysPlanMicrocopy.textContent = getTodaysPlanMicrocopy(metrics.progress, metrics.completedTasks);
         }
 
         updateSelectedDayProgress(metrics);
