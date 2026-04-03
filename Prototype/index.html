@@ -3190,7 +3190,7 @@
       getPlanFinalBtn.addEventListener('click', () => {
         document.getElementById('planBuilder').classList.add('is-hidden');
         dashboardView.classList.remove('is-hidden');
-        syncPanelWithSelectedDashboardDay();
+        initializeDashboardDefaultState();
       });
     }
 
@@ -3308,6 +3308,10 @@
     const panelWeekday = document.getElementById('panelWeekday');
     const panelDayBig = document.getElementById('panelDayBig');
     const panelMonthYear = document.getElementById('panelMonthYear');
+    const dashboardState = {
+      selectedDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+      panelOpen: false,
+    };
     let isPanelExpanded = false;
 
     function setPanelExpanded(expanded) {
@@ -3374,38 +3378,48 @@
       return null;
     }
 
-    function syncPanelWithSelectedDashboardDay() {
-      const startSelectionDate = getDateFromStartSelection();
-      if (startSelectionDate) {
-        const visibleMonth = getDashboardVisibleMonthYear();
-        const sameVisibleMonth = startSelectionDate.getFullYear() === visibleMonth.year
-          && startSelectionDate.getMonth() === visibleMonth.month;
+    function getDashboardCardByDate(dateObj) {
+      const dayText = String(dateObj.getDate()).padStart(2, '0');
+      return Array.from(document.querySelectorAll('.dashboard-day-card:not(.is-empty)'))
+        .find((card) => card.querySelector('.day-num')?.textContent?.trim() === dayText);
+    }
 
-        if (sameVisibleMonth) {
-          const dayText = String(startSelectionDate.getDate()).padStart(2, '0');
-          const matchingCard = Array.from(document.querySelectorAll('.dashboard-day-card:not(.is-empty)'))
-            .find((card) => card.querySelector('.day-num')?.textContent?.trim() === dayText);
-
-          if (matchingCard) {
-            document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-selected'));
-            matchingCard.classList.add('is-selected');
-          }
-        } else {
-          updatePanelDateInfo(startSelectionDate);
-          return;
-        }
-      }
-
-      const selectedCard = document.querySelector('.dashboard-day-card.is-selected:not(.is-empty)');
-      const todayCard = document.querySelector('.dashboard-day-card.is-today:not(.is-empty)');
-      const activeCard = selectedCard || todayCard;
-      if (!activeCard) {
+    function setDashboardSelectedDate(dateObj) {
+      if (!dateObj) {
         return;
       }
 
-      const activeDate = getDateFromDayCard(activeCard);
-      if (activeDate) {
-        updatePanelDateInfo(activeDate);
+      dashboardState.selectedDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+
+      document.querySelectorAll('.dashboard-day-card').forEach((card) => card.classList.remove('is-selected'));
+
+      const matchingCard = getDashboardCardByDate(dashboardState.selectedDate);
+      if (matchingCard) {
+        matchingCard.classList.add('is-selected');
+      }
+
+      updatePanelDateInfo(dashboardState.selectedDate);
+    }
+
+    function openDashboardPanel() {
+      dashboardState.panelOpen = true;
+      if (dashboardViewEl) {
+        dashboardViewEl.classList.add('panel-open');
+      }
+    }
+
+    function initializeDashboardDefaultState() {
+      const defaultDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      setDashboardSelectedDate(defaultDate);
+      openDashboardPanel();
+    }
+
+    function syncPanelWithSelectedDashboardDay() {
+      const selectedDate = dashboardState.selectedDate || getDateFromStartSelection() || today;
+      setDashboardSelectedDate(selectedDate);
+
+      if (!dashboardState.panelOpen) {
+        openDashboardPanel();
       }
     }
 
@@ -3415,12 +3429,16 @@
         document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-selected'));
         // Set clicked card as selected
         card.classList.add('is-selected');
+        const selectedDate = getDateFromDayCard(card);
+        if (selectedDate) {
+          dashboardState.selectedDate = selectedDate;
+        }
 
         if (dashboardViewEl && !dashboardViewEl.classList.contains('panel-open')) {
           dashboardViewEl.classList.add('panel-open');
         }
+        dashboardState.panelOpen = true;
 
-        const selectedDate = getDateFromDayCard(card);
         if (selectedDate) {
           updatePanelDateInfo(selectedDate);
         }
@@ -3437,6 +3455,7 @@
     if (closePanelBtn) {
       closePanelBtn.addEventListener('click', () => {
         if (dashboardViewEl) dashboardViewEl.classList.remove('panel-open');
+        dashboardState.panelOpen = false;
         setPanelExpanded(false);
         document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-selected'));
       });
