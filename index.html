@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAT Study Planner</title>
+  <title>Optima Learn</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1024,16 +1024,16 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 24px;
       box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
       border: 1px solid #e2e8f0;
       height: fit-content;
     }
 
     .config-col-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #2563eb;
+      font-size: 20px;
+      font-weight: 800;
+      color: #1e3a8a;
       margin: 0;
     }
 
@@ -1114,38 +1114,42 @@
     .topic-row {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .topic-label {
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: #0f172a;
       line-height: 1.3;
     }
 
     .topic-status-group {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
 
     .topic-status-btn {
-      min-height: 42px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
       border-radius: 999px;
-      border: 1px solid #cbd5e1;
-      background: #f1f5f9;
-      color: #334155;
-      font-size: 13px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #64748b;
+      font-size: 12px;
       font-weight: 600;
+      white-space: nowrap;
+      padding: 0 8px;
       cursor: pointer;
-      text-align: center;
       transition: all 150ms ease;
-      padding: 0 16px;
     }
 
     .topic-status-btn:hover {
-      background: #e2e8f0;
+      background: #f8fafc;
     }
 
     .topic-status-btn.selected {
@@ -1153,24 +1157,24 @@
     }
 
     .topic-status-btn.level-weak.selected {
-      color: #b91c1c;
+      color: #dc2626;
       background: #fef2f2;
-      border-color: #f87171;
-      box-shadow: 0 4px 10px rgba(248, 113, 113, 0.15);
+      border-color: #fca5a5;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
     }
 
     .topic-status-btn.level-average.selected {
-      color: #b45309;
-      background: #fffbeb;
-      border-color: #fbbf24;
-      box-shadow: 0 4px 10px rgba(251, 191, 36, 0.15);
+      color: #334155;
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 8px rgba(148, 163, 184, 0.1);
     }
 
     .topic-status-btn.level-strong.selected {
-      color: #047857;
-      background: #f0fdf4;
-      border-color: #34d399;
-      box-shadow: 0 4px 10px rgba(52, 211, 153, 0.15);
+      color: #ffffff;
+      background: #10b981;
+      border-color: #10b981;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
 
     /* Routine block */
@@ -1670,6 +1674,10 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 12px;
+    }
+
+    .panel-section-title--primary {
+      font-size: 16px;
     }
 
     .panel-tasks {
@@ -3180,7 +3188,8 @@
 
               <div class="panel-scroll-area">
                 <div>
-                  <h4 class="panel-section-title">🚀 Today’s Plan </h4>
+                  <h4 class="panel-section-title panel-section-title--primary">🚀 Today’s Plan </h4>
+                  <p style="margin: -4px 0 12px; font-size: 12px; color: #64748b;">Start today. Even 30 mins makes a difference.</p>
                   <div class="panel-tasks">
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
                       <span class="task-marker" aria-hidden="true"></span>
