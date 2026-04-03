@@ -3330,6 +3330,29 @@
         // Add active state to clicked item
         item.classList.add('is-active');
 
+        const isPlannerButton = item.getAttribute('aria-label') === 'Study planner';
+        if (isPlannerButton) {
+          heroCard.classList.remove('is-hidden');
+          onboardingCard.classList.add('is-hidden');
+
+          const planBuilder = document.getElementById('planBuilder');
+          if (planBuilder) {
+            planBuilder.classList.add('is-hidden');
+          }
+
+          const dashView = document.getElementById('dashboardView');
+          if (dashView) {
+            dashView.classList.add('is-hidden');
+            dashView.classList.remove('panel-open', 'panel-expanded');
+          }
+          setPanelExpanded(false);
+
+          if (window.innerWidth <= 760) {
+            appEl.classList.remove('drawer-open');
+          }
+          return;
+        }
+
         // Auto-close drawer on mobile when an item is selected
         if (window.innerWidth <= 760) {
           appEl.classList.remove('drawer-open');
