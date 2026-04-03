@@ -1,6 +1,5 @@
 # OptimaLearn — AI Study Planner Redesign
 
----
 
 ## Overview
 

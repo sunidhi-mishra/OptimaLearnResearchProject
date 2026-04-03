@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="72" viewBox="0 0 380 72" role="img" aria-labelledby="title desc">
+  <title id="title">Optima Learn logo</title>
+  <desc id="desc">Rounded blue mascot icon followed by Optima Learn wordmark.</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5BC0FF"/>
+      <stop offset="100%" stop-color="#1E8BFF"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0F7CFF"/>
+      <stop offset="100%" stop-color="#006BFF"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(8 8)">
+    <rect x="0" y="0" width="56" height="56" rx="14" fill="url(#bgGrad)"/>
+    <circle cx="20" cy="24" r="3" fill="#2C74C9"/>
+    <circle cx="36" cy="24" r="3" fill="#2C74C9"/>
+    <path d="M18 36 C 24 44, 32 44, 38 36" fill="none" stroke="#235EB0" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <text x="78" y="46" font-family="Manrope, Segoe UI, Arial, sans-serif" font-size="42" font-weight="700" fill="url(#textGrad)">Optima Learn</text>
+</svg>

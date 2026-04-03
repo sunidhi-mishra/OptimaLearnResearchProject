@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Optima Learn</title>
+  <title>CAT Study Planner</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -934,7 +934,44 @@
       color: #475569;
     }
 
-    /* Consolidated to shared .topic-status-btn status pill UI below */
+    .level-chip {
+      min-height: 42px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 150ms ease;
+    }
+
+    .level-chip:hover {
+      background: #e2e8f0;
+    }
+
+    .level-chip.level-weak.selected {
+      color: #b91c1c;
+      background: #fef2f2;
+      border-color: #f87171;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(248, 113, 113, 0.15);
+    }
+
+    .level-chip.level-average.selected {
+      color: #b45309;
+      background: #fffbeb;
+      border-color: #fbbf24;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(251, 191, 36, 0.15);
+    }
+
+    .level-chip.level-strong.selected {
+      color: #047857;
+      background: #f0fdf4;
+      border-color: #34d399;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(52, 211, 153, 0.15);
+    }
 
     .onboarding-footer {
       background: transparent;
@@ -987,16 +1024,16 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 12px;
       box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
       border: 1px solid #e2e8f0;
       height: fit-content;
     }
 
     .config-col-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: #1e3a8a;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2563eb;
       margin: 0;
     }
 
@@ -1077,81 +1114,63 @@
     .topic-row {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .topic-label {
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       color: #0f172a;
       line-height: 1.3;
     }
 
     .topic-status-group {
-      display: flex;
-      align-items: center;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
 
-    /* Unified Pill Components */
-    .level-chip,
     .topic-status-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 40px;
+      min-height: 42px;
       border-radius: 999px;
-      border: 1px solid #e2e8f0;
-      background: #ffffff;
-      color: #64748b;
+      border: 1px solid #cbd5e1;
+      background: #f1f5f9;
+      color: #334155;
       font-size: 13px;
       font-weight: 600;
-      white-space: nowrap;
-      padding: 0 16px;
       cursor: pointer;
+      text-align: center;
       transition: all 150ms ease;
+      padding: 0 16px;
     }
 
-    .topic-status-btn {
-      flex: 1;
-      padding: 0 8px;
-      font-size: 12px;
-    }
-
-    .level-chip:hover,
     .topic-status-btn:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
+      background: #e2e8f0;
     }
 
-    .level-chip.selected,
     .topic-status-btn.selected {
       font-weight: 700;
     }
 
-    /* Semantic State Mappings */
-    .level-chip.level-weak.selected,
     .topic-status-btn.level-weak.selected {
-      color: #dc2626;
+      color: #b91c1c;
       background: #fef2f2;
-      border-color: #fca5a5;
-      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+      border-color: #f87171;
+      box-shadow: 0 4px 10px rgba(248, 113, 113, 0.15);
     }
 
-    .level-chip.level-average.selected,
     .topic-status-btn.level-average.selected {
       color: #b45309;
       background: #fffbeb;
-      border-color: #fcd34d;
-      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);
+      border-color: #fbbf24;
+      box-shadow: 0 4px 10px rgba(251, 191, 36, 0.15);
     }
 
-    .level-chip.level-strong.selected,
     .topic-status-btn.level-strong.selected {
-      color: #059669;
-      background: #ecfdf5;
-      border-color: #6ee7b7;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+      color: #047857;
+      background: #f0fdf4;
+      border-color: #34d399;
+      box-shadow: 0 4px 10px rgba(52, 211, 153, 0.15);
     }
 
     /* Routine block */
@@ -1653,10 +1672,6 @@
       margin-bottom: 12px;
     }
 
-    .panel-section-title--primary {
-      font-size: 16px;
-    }
-
     .panel-tasks {
       display: flex;
       flex-direction: column;
@@ -1679,45 +1694,6 @@
     .panel-task-item:hover {
       border-color: #cbd5e1;
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-    }
-
-    .panel-task-item.is-completed,
-    .panel-task-item.is-selected {
-      background: #f8fafc;
-      border-color: #cbd5e1;
-    }
-
-    /* Semantic Highlight application based on inner tag */
-    .panel-task-item:has(.tag-varc).is-completed,
-    .panel-task-item:has(.tag-varc).is-selected {
-      border-color: rgba(245, 158, 11, 0.5); /* subtle solid */
-      background: rgba(245, 158, 11, 0.05); /* 5% tint */
-    }
-
-    .panel-task-item:has(.tag-quant).is-completed,
-    .panel-task-item:has(.tag-quant).is-selected {
-      border-color: rgba(139, 92, 246, 0.5);
-      background: rgba(139, 92, 246, 0.05);
-    }
-
-    .panel-task-item:has(.tag-dilr).is-completed,
-    .panel-task-item:has(.tag-dilr).is-selected {
-      border-color: rgba(16, 185, 129, 0.5);
-      background: rgba(16, 185, 129, 0.05);
-    }
-
-    .panel-task-item.is-completed .task-title {
-      color: #64748b;
-    }
-
-    .panel-task-item.is-completed .task-marker {
-      border-color: #16a34a;
-      background-color: #16a34a;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 12px;
-      box-shadow: none;
     }
 
     .task-marker {
@@ -2164,27 +2140,7 @@
       font-size: 12px;
       font-weight: 600;
       color: #94a3b8;
-      margin-top: 8px;
       margin-bottom: auto;
-    }
-
-    .day-progress {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 3px;
-      margin-top: 2px;
-      min-height: 4px;
-    }
-
-    .day-progress-segment {
-      height: 3px;
-      border-radius: 999px;
-      background: #e2e8f0;
-      transition: background-color 0.2s ease;
-    }
-
-    .day-progress-segment.is-active {
-      background: #4f46e5;
     }
 
     .day-dots {
@@ -2202,18 +2158,6 @@
 
     .day-dots .dot.done {
       background: #3b82f6;
-    }
-
-    .day-dots .dot.dot-tag-varc {
-      background: #f59e0b;
-    }
-
-    .day-dots .dot.dot-tag-quant {
-      background: #8b5cf6;
-    }
-
-    .day-dots .dot.dot-tag-dilr {
-      background: #10b981;
     }
 
     .dashboard-legend {
@@ -3197,9 +3141,73 @@
 
               <div class="panel-scroll-area">
                 <div>
-                  <h4 class="panel-section-title panel-section-title--primary">🚀 Today’s Plan </h4>
-                  <p id="todaysPlanMicrocopy" style="margin: -4px 0 12px; font-size: 12px; color: #64748b;">Start today. Even 30 mins makes a difference.</p>
-                  <div class="panel-tasks" id="todayPlanTasks"></div>
+                  <h4 class="panel-section-title">✅ Today’s Plan </h4>
+                  <div class="panel-tasks">
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <div class="task-info">
+                          <span class="task-title">📘 Overview of genres</span>
+                          <span class="task-subtitle">RC: Art, literature and culture</span>
+                        </div>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-varc">VARC</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="45m" data-long="45 min"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Practical Implementation">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <div class="task-info">
+                          <span class="task-title">⚙️ Averages</span>
+                          <span class="task-subtitle">Theory: Shift & Scale</span>
+                        </div>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-quant">QUANT</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="30m" data-long="30 min"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Something Related to AI">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <div class="task-info">
+                          <span class="task-title">🤖 Introduction to VARC</span>
+                          <span class="task-subtitle">Theory: The CAT VARC Section</span>
+                        </div>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-varc">VARC</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="15m" data-long="15 min"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Solve a Product Problem">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <div class="task-info">
+                          <span class="task-title">🧩 Linear Arrangements</span>
+                          <span class="task-subtitle">Theory: Double / Multiple Rows</span>
+                        </div>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-dilr">DILR</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="60m" data-long="60 min"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div>
@@ -3617,14 +3625,8 @@
     const panelWeekday = document.getElementById('panelWeekday');
     const panelDayBig = document.getElementById('panelDayBig');
     const panelMonthYear = document.getElementById('panelMonthYear');
-    const dashboardMonthNavPrev = document.querySelector('.dashboard-month-nav .calendar-nav:first-of-type');
-    const dashboardMonthNavNext = document.querySelector('.dashboard-month-nav .calendar-nav:last-of-type');
-    const dashboardMonthLabel = document.querySelector('.dashboard-month-nav .month-label');
-    const dashboardCalendarGrid = document.querySelector('.calendar-grid-large');
-    const todayPlanTasksWrap = document.getElementById('todayPlanTasks');
     const dashboardState = {
       selectedDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
-      visibleMonth: new Date(today.getFullYear(), today.getMonth(), 1),
       panelOpen: false,
     };
     let isPanelExpanded = false;
@@ -3643,204 +3645,13 @@
     }
 
     function getDashboardVisibleMonthYear() {
-      return {
-        year: dashboardState.visibleMonth.getFullYear(),
-        month: dashboardState.visibleMonth.getMonth(),
-      };
-    }
-
-    function isWeekendDate(dateObj) {
-      const dayIndex = dateObj.getDay();
-      return dayIndex === 0 || dayIndex === 6;
-    }
-
-    function getDashboardDayTotal(dateObj) {
-      return isWeekendDate(dateObj) ? 3 : 4;
-    }
-
-    function getDayPlanKey(dateObj) {
-      return formatIso(dateObj);
-    }
-
-    function getTaskTemplatesForDate(dateObj) {
-      const weekdayTasks = [
-        {
-          title: '📘 Overview of genres',
-          subtitle: 'RC: Art, literature and culture',
-          tagLabel: 'VARC',
-          tagClass: 'tag-varc',
-          timeShort: '45m',
-          timeLong: '45 min',
-          ariaLabel: 'Learn PM Theory Concepts',
-        },
-        {
-          title: '⚙️ Averages',
-          subtitle: 'Theory: Shift & Scale',
-          tagLabel: 'QUANT',
-          tagClass: 'tag-quant',
-          timeShort: '30m',
-          timeLong: '30 min',
-          ariaLabel: 'Learn Practical Implementation',
-        },
-        {
-          title: '🤖 Introduction to VARC',
-          subtitle: 'Theory: The CAT VARC Section',
-          tagLabel: 'VARC',
-          tagClass: 'tag-varc',
-          timeShort: '15m',
-          timeLong: '15 min',
-          ariaLabel: 'Learn Something Related to AI',
-        },
-        {
-          title: '🧩 Linear Arrangements',
-          subtitle: 'Theory: Double / Multiple Rows',
-          tagLabel: 'DILR',
-          tagClass: 'tag-dilr',
-          timeShort: '60m',
-          timeLong: '60 min',
-          ariaLabel: 'Solve a Product Problem',
-        },
-      ];
-
-      const weekendTasks = weekdayTasks.slice(0, 3);
-      return isWeekendDate(dateObj) ? weekendTasks : weekdayTasks;
-    }
-
-    const MAX_DASHBOARD_DOTS = 3;
-    let bindTodayPlanTasks = () => {};
-
-    function getUniqueTagCountFromTasks(tasks) {
-      const uniqueTags = new Set(
-        tasks
-          .map((task) => String(task.tagLabel || '').trim().toUpperCase())
-          .filter(Boolean),
-      );
-
-      return Math.min(MAX_DASHBOARD_DOTS, uniqueTags.size);
-    }
-
-    function getUniqueTagKeysFromTasks(tasks) {
-      const orderedTags = [];
-      const seenTags = new Set();
-
-      tasks.forEach((task) => {
-        const tagKey = String(task.tagLabel || '').trim().toUpperCase();
-        if (!tagKey || seenTags.has(tagKey)) {
-          return;
-        }
-
-        seenTags.add(tagKey);
-        orderedTags.push(tagKey);
-      });
-
-      return orderedTags.slice(0, MAX_DASHBOARD_DOTS);
-    }
-
-    function createPlanTaskHtml(task) {
-      return `
-        <div class="panel-task-item" role="button" tabindex="0" aria-label="${task.ariaLabel}">
-          <span class="task-marker" aria-hidden="true"></span>
-          <div class="task-content">
-            <div class="task-info">
-              <span class="task-title">${task.title}</span>
-              <span class="task-subtitle">${task.subtitle}</span>
-            </div>
-            <div class="task-meta-right">
-              <span class="subject-tag ${task.tagClass}">${task.tagLabel}</span>
-              <div class="time-meta">
-                <span class="time-icon">⏱</span>
-                <span class="time-value" data-short="${task.timeShort}" data-long="${task.timeLong}"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderDashboardCalendar() {
-      if (!dashboardCalendarGrid || !dashboardMonthLabel) {
-        return;
+      const labelText = document.querySelector('.dashboard-month-nav .month-label')?.textContent?.trim();
+      const parsedDate = labelText ? new Date(`${labelText} 1`) : new Date(NaN);
+      if (!Number.isNaN(parsedDate.getTime())) {
+        return { year: parsedDate.getFullYear(), month: parsedDate.getMonth() };
       }
 
-      const { year, month } = getDashboardVisibleMonthYear();
-      const firstWeekday = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const monthLabel = new Date(year, month, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
-      const selectedDateIso = dashboardState.selectedDate ? formatIso(dashboardState.selectedDate) : null;
-
-      dashboardMonthLabel.textContent = monthLabel;
-      dashboardCalendarGrid.innerHTML = '';
-
-      for (let index = 0; index < 42; index += 1) {
-        let card;
-
-        if (index < firstWeekday || index >= firstWeekday + daysInMonth) {
-          card = document.createElement('div');
-          card.className = 'dashboard-day-card is-empty';
-          dashboardCalendarGrid.appendChild(card);
-          continue;
-        }
-
-        const dayNumber = index - firstWeekday + 1;
-        const cellDate = new Date(year, month, dayNumber);
-        const isWeekend = isWeekendDate(cellDate);
-        const dayTasks = getTaskTemplatesForDate(cellDate);
-        const totalTasks = getDashboardDayTotal(cellDate);
-        const dotCount = getUniqueTagCountFromTasks(dayTasks);
-        const dotTags = getUniqueTagKeysFromTasks(dayTasks);
-        const dayIso = formatIso(cellDate);
-
-        card = document.createElement('button');
-        card.type = 'button';
-        card.className = 'dashboard-day-card';
-        card.dataset.date = dayIso;
-        card.dataset.totalTasks = String(totalTasks);
-        card.dataset.dotCount = String(dotCount);
-        card.dataset.dotTags = dotTags.join(',');
-        card.setAttribute('aria-label', `${cellDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}`);
-
-        if (isWeekend) {
-          card.classList.add('is-weekend');
-        }
-        if (isSameDay(cellDate, today)) {
-          card.classList.add('is-today');
-        }
-        if (selectedDateIso === dayIso) {
-          card.classList.add('is-selected');
-        }
-
-        card.innerHTML = `
-          <div class="day-num">${String(dayNumber).padStart(2, '0')}</div>
-          <div class="day-progress">
-            <span class="day-progress-segment"></span>
-            <span class="day-progress-segment"></span>
-            <span class="day-progress-segment"></span>
-            <span class="day-progress-segment"></span>
-          </div>
-          <div class="day-frac">0/${totalTasks}</div>
-          <div class="day-dots">${'<span class="dot pending"></span>'.repeat(dotCount)}</div>
-        `;
-
-        card.addEventListener('click', () => {
-          setDashboardSelectedDate(cellDate);
-          openDashboardPanel();
-        });
-
-        dashboardCalendarGrid.appendChild(card);
-      }
-    }
-
-    function renderTodayPlan(dateObj) {
-      if (!todayPlanTasksWrap) {
-        return;
-      }
-
-      const planTasks = getTaskTemplatesForDate(dateObj);
-      const planKey = getDayPlanKey(dateObj);
-
-      todayPlanTasksWrap.innerHTML = planTasks.map(createPlanTaskHtml).join('');
-
-      bindTodayPlanTasks(planKey);
+      return { year: today.getFullYear(), month: today.getMonth() };
     }
 
     function updatePanelDateInfo(dateObj) {
@@ -3861,13 +3672,14 @@
     }
 
     function getDateFromDayCard(card) {
-      const dateValue = card.dataset.date;
-      if (!dateValue) {
+      const dayText = card.querySelector('.day-num')?.textContent?.trim();
+      const dayNumber = Number(dayText);
+      if (!dayNumber) {
         return null;
       }
 
-      const parsedDate = new Date(`${dateValue}T00:00:00`);
-      return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+      const visibleMonth = getDashboardVisibleMonthYear();
+      return new Date(visibleMonth.year, visibleMonth.month, dayNumber);
     }
 
     function getDateFromStartSelection() {
@@ -3889,8 +3701,9 @@
     }
 
     function getDashboardCardByDate(dateObj) {
-      const dateValue = formatIso(dateObj);
-      return dashboardCalendarGrid?.querySelector(`.dashboard-day-card[data-date="${dateValue}"]`) || null;
+      const dayText = String(dateObj.getDate()).padStart(2, '0');
+      return Array.from(document.querySelectorAll('.dashboard-day-card:not(.is-empty)'))
+        .find((card) => card.querySelector('.day-num')?.textContent?.trim() === dayText);
     }
 
     function setDashboardSelectedDate(dateObj) {
@@ -3900,13 +3713,14 @@
 
       dashboardState.selectedDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
 
-      dashboardState.visibleMonth = new Date(dateObj.getFullYear(), dateObj.getMonth(), 1);
-      renderDashboardCalendar();
-      renderTodayPlan(dashboardState.selectedDate);
-      openDashboardPanel();
+      document.querySelectorAll('.dashboard-day-card').forEach((card) => card.classList.remove('is-selected'));
+
+      const matchingCard = getDashboardCardByDate(dashboardState.selectedDate);
+      if (matchingCard) {
+        matchingCard.classList.add('is-selected');
+      }
 
       updatePanelDateInfo(dashboardState.selectedDate);
-      refreshProgressUI();
     }
 
     function openDashboardPanel() {
@@ -3931,29 +3745,27 @@
       }
     }
 
-    if (dashboardMonthNavPrev) {
-      dashboardMonthNavPrev.addEventListener('click', () => {
-        dashboardState.visibleMonth = new Date(
-          dashboardState.visibleMonth.getFullYear(),
-          dashboardState.visibleMonth.getMonth() - 1,
-          1,
-        );
-        renderDashboardCalendar();
-        refreshProgressUI();
-      });
-    }
+    document.querySelectorAll('.dashboard-day-card:not(.is-empty)').forEach(card => {
+      card.addEventListener('click', () => {
+        // Remove selected state from all cards
+        document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-selected'));
+        // Set clicked card as selected
+        card.classList.add('is-selected');
+        const selectedDate = getDateFromDayCard(card);
+        if (selectedDate) {
+          dashboardState.selectedDate = selectedDate;
+        }
 
-    if (dashboardMonthNavNext) {
-      dashboardMonthNavNext.addEventListener('click', () => {
-        dashboardState.visibleMonth = new Date(
-          dashboardState.visibleMonth.getFullYear(),
-          dashboardState.visibleMonth.getMonth() + 1,
-          1,
-        );
-        renderDashboardCalendar();
-        refreshProgressUI();
+        if (dashboardViewEl && !dashboardViewEl.classList.contains('panel-open')) {
+          dashboardViewEl.classList.add('panel-open');
+        }
+        dashboardState.panelOpen = true;
+
+        if (selectedDate) {
+          updatePanelDateInfo(selectedDate);
+        }
       });
-    }
+    });
 
     const closePanelBtn = document.getElementById('closePanelBtn');
     if (panelExpandBtn) {
@@ -3977,417 +3789,75 @@
       const baseDialog = document.getElementById('executionDialog');
       if (!baseDialog) return;
 
-      let panelItems = [];
-      const sectionStore = new Map();
-      const panelRadialProgress = document.querySelector('.panel-radial-progress');
-      const panelRadialLabel = panelRadialProgress?.querySelector('span');
-      const doneStatValue = document.querySelector('.panel-stat-val.done');
-      const totalStatValue = document.querySelector('.panel-stat-val.total');
-      const leftStatValue = document.querySelector('.panel-stat-val.left');
-      const todaysPlanMicrocopy = document.getElementById('todaysPlanMicrocopy');
-      const streakStatValue = document.querySelector('.streak-stat-value');
-      const DOTS_PER_DAY_CARD = MAX_DASHBOARD_DOTS;
-      
-      let streakCount = 0;
-      let streakDateCredit = null;
-      const TAG_DOT_CLASS_MAP = {
-        VARC: 'dot-tag-varc',
-        QUANT: 'dot-tag-quant',
-        DILR: 'dot-tag-dilr',
-      };
-
-      function normalizeTagKey(value) {
-        return String(value || '').trim().toUpperCase();
-      }
-
-      function setDayCardDots(card, dotCount) {
-        const dotsWrap = card?.querySelector('.day-dots');
-        if (!dotsWrap) return;
-
-        const safeDotCount = Math.max(0, Math.min(DOTS_PER_DAY_CARD, dotCount));
-        card.dataset.dotCount = String(safeDotCount);
-
-        const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
-        if (dots.length > safeDotCount) {
-          dots.slice(safeDotCount).forEach((dot) => dot.remove());
-        }
-
-        if (dots.length < safeDotCount) {
-          const missingCount = safeDotCount - dots.length;
-          for (let i = 0; i < missingCount; i += 1) {
-            const dot = document.createElement('span');
-            dot.className = 'dot pending';
-            dotsWrap.appendChild(dot);
-          }
-        }
-      }
-
-      function getSelectedPlanUniqueTagCount() {
-        if (!todayPlanTasksWrap) {
-          return DOTS_PER_DAY_CARD;
-        }
-
-        const uniqueTags = new Set(
-          Array.from(todayPlanTasksWrap.querySelectorAll('.subject-tag'))
-            .map((tag) => tag.textContent.trim().toUpperCase())
-            .filter(Boolean),
-        );
-
-        return Math.min(DOTS_PER_DAY_CARD, uniqueTags.size);
-      }
-
-      function getSelectedPlanTagCompletionSummary() {
-        const tagsInOrder = [];
-        const tagCompletionMap = new Map();
-
-        panelItems.forEach((item) => {
-          const sectionId = item.dataset.sectionId;
-          if (!sectionId) {
-            return;
-          }
-
-          const tagLabel = item.querySelector('.subject-tag')?.textContent;
-          const tagKey = normalizeTagKey(tagLabel);
-          if (!tagKey) {
-            return;
-          }
-
-          if (!tagCompletionMap.has(tagKey)) {
-            tagCompletionMap.set(tagKey, []);
-            tagsInOrder.push(tagKey);
-          }
-
-          tagCompletionMap.get(tagKey).push(getSectionCompletion(sectionId));
-        });
-
-        return tagsInOrder.slice(0, DOTS_PER_DAY_CARD).map((tagKey) => {
-          const completions = tagCompletionMap.get(tagKey) || [];
-          return {
-            tagKey,
-            isComplete: completions.length > 0 && completions.every(Boolean),
-          };
-        });
-      }
-
-      function initializeSectionState(sectionId, taskCount) {
-        if (sectionStore.has(sectionId)) return;
-
-        sectionStore.set(sectionId, {
-          sectionId,
-          tasks: Array.from({ length: taskCount }, (_, taskIndex) => ({
-            taskId: `${sectionId}-task-${taskIndex}`,
-            isCompleted: false,
-          })),
-        });
-      }
-
-      function getSectionCompletion(sectionId) {
-        const section = sectionStore.get(sectionId);
-        if (!section) return false;
-        return section.tasks.every((task) => task.isCompleted);
-      }
-
-      function getProgressMetrics() {
-        const totalTasks = panelItems.length;
-        const completedTasks = panelItems
-          .reduce((count, item) => count + (getSectionCompletion(item.dataset.sectionId) ? 1 : 0), 0);
-        const leftTasks = Math.max(0, totalTasks - completedTasks);
-        const progress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
-
-        return {
-          totalTasks,
-          completedTasks,
-          leftTasks,
-          progress,
-        };
-      }
-
-      function normalizeDashboardDots() {
-        document.querySelectorAll('.dashboard-day-card:not(.is-empty)').forEach((card) => {
-          const desiredDotCount = Number(card.dataset.dotCount || DOTS_PER_DAY_CARD);
-          setDayCardDots(card, desiredDotCount);
-        });
-      }
-
-      function getProgressBarSteps(progress) {
-        if (progress <= 0) return 0;
-        if (progress < 30) return 1;
-        if (progress < 70) return 2;
-        if (progress < 100) return 3;
-        return 4;
-      }
-
-      function setDayCardProgressSteps(card, steps) {
-        const segments = Array.from(card?.querySelectorAll('.day-progress-segment') || []);
-        const safeSteps = Math.max(0, Math.min(4, steps));
-
-        segments.forEach((segment, index) => {
-          segment.classList.toggle('is-active', index < safeSteps);
-        });
-      }
-
-      function updateSelectedDayProgress(metrics) {
-        const selectedCard = document.querySelector('.dashboard-day-card.is-selected')
-          || (dashboardState.selectedDate ? getDashboardCardByDate(dashboardState.selectedDate) : null);
-
-        if (!selectedCard) return;
-
-        const dayFraction = selectedCard.querySelector('.day-frac');
-        if (dayFraction) {
-          dayFraction.textContent = `${metrics.completedTasks}/${metrics.totalTasks}`;
-        }
-
-        setDayCardProgressSteps(selectedCard, getProgressBarSteps(metrics.progress));
-
-        const tagSummary = getSelectedPlanTagCompletionSummary();
-        const fallbackDotCount = getSelectedPlanUniqueTagCount();
-        setDayCardDots(selectedCard, tagSummary.length || fallbackDotCount);
-
-        const dots = Array.from(selectedCard.querySelectorAll('.day-dots .dot'));
-        dots.forEach((dot, index) => {
-          dot.classList.remove('done', 'dot-tag-varc', 'dot-tag-quant', 'dot-tag-dilr');
-
-          const tagInfo = tagSummary[index];
-          if (!tagInfo || !tagInfo.isComplete) {
-            return;
-          }
-
-          const dotClass = TAG_DOT_CLASS_MAP[tagInfo.tagKey];
-          if (dotClass) {
-            dot.classList.add(dotClass);
-          }
-        });
-      }
-
-      function getTodaysPlanMicrocopy(progress, completedTasks) {
-        if (completedTasks === 0 || progress === 0) {
-          return 'Start today. Even 30 mins makes a difference.';
-        }
-
-        if (progress < 30) {
-          return 'Good start. Keep the momentum going.';
-        }
-
-        if (progress < 70) {
-          return "You're making solid progress. Keep pushing.";
-        }
-
-        if (progress < 100) {
-          return 'Almost there. Finish strong 💪';
-        }
-
-        return 'Great job! You’ve completed today’s plan 🎉';
-      }
-
-      function refreshProgressUI() {
-        normalizeDashboardDots();
-        const metrics = getProgressMetrics();
-
-        if (panelRadialProgress) {
-          panelRadialProgress.style.setProperty('--progress', `${metrics.progress}%`);
-        }
-
-        if (panelRadialLabel) {
-          panelRadialLabel.textContent = `${metrics.progress}%`;
-        }
-
-        if (doneStatValue) {
-          doneStatValue.textContent = String(metrics.completedTasks);
-        }
-
-        if (totalStatValue) {
-          totalStatValue.textContent = String(metrics.totalTasks);
-        }
-
-        if (leftStatValue) {
-          leftStatValue.textContent = String(metrics.leftTasks);
-        }
-
-        if (todaysPlanMicrocopy) {
-          todaysPlanMicrocopy.textContent = getTodaysPlanMicrocopy(metrics.progress, metrics.completedTasks);
-        }
-
-        // Update streak if we're viewing today and at least one task is completed
-        if (dashboardState && dashboardState.selectedDate) {
-          updateStreakIfNeeded(dashboardState.selectedDate);
-        }
-
-        updateSelectedDayProgress(metrics);
-      }
-
-      function updateStreakIfNeeded(selectedDateObj) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        const selectedDate = new Date(selectedDateObj);
-        selectedDate.setHours(0, 0, 0, 0);
-        
-        // Check if we're viewing today
-        if (selectedDate.getTime() === today.getTime()) {
-          // Check if at least one task is completed today
-          const metrics = getProgressMetrics();
-          const todayDateString = formatIso(today);
-          
-          // Only increment streak once per day
-          if (metrics.completedTasks > 0 && streakDateCredit !== todayDateString) {
-            streakCount += 1;
-            streakDateCredit = todayDateString;
-            
-            if (streakStatValue) {
-              streakStatValue.textContent = String(streakCount);
-            }
-          }
-        }
-      }
-
-      function updateSectionCardUI(sectionId, sectionCard, dialogHeaderCheckbox) {
-        const isCompleted = getSectionCompletion(sectionId);
-
-        sectionCard.classList.toggle('is-completed', isCompleted);
-        sectionCard.setAttribute('aria-checked', String(isCompleted));
-
-        if (dialogHeaderCheckbox) {
-          dialogHeaderCheckbox.checked = isCompleted;
-        }
-
-        refreshProgressUI();
-      }
-
-      bindTodayPlanTasks = function bindTodayPlanTasks(planKey) {
-        if (!todayPlanTasksWrap) {
-          return;
-        }
-
-        document.querySelectorAll('[data-plan-dialog-clone="true"]').forEach((dialogNode) => dialogNode.remove());
-
-        panelItems = Array.from(todayPlanTasksWrap.querySelectorAll('.panel-task-item'));
-
-        panelItems.forEach((item, index) => {
-          let dialogNode;
-          const sectionId = `${planKey}-${index}`;
-
-          item.dataset.sectionId = sectionId;
-
-          if (index === 0) {
-            dialogNode = baseDialog;
-          } else {
-            dialogNode = baseDialog.cloneNode(true);
-            dialogNode.id = `executionDialog_${planKey}_${index}`;
-            dialogNode.dataset.planDialogClone = 'true';
-            document.body.appendChild(dialogNode);
-          }
-
-          const taskCount = dialogNode.querySelectorAll('.execution-card').length;
-          initializeSectionState(sectionId, taskCount);
-
-          const closeBtn = dialogNode.querySelector('.execution-close-btn');
-          if (closeBtn) {
-            closeBtn.removeAttribute('onclick');
-            closeBtn.addEventListener('click', function() {
-              this.closest('dialog').removeAttribute('open');
-            });
-          }
-
-          function hydrateDialogHeaderFromTask(taskItem) {
-            const taskTitleEl = taskItem.querySelector('.task-title');
-            const taskTagEl = taskItem.querySelector('.subject-tag');
-            const taskTimeEl = taskItem.querySelector('.time-value');
-            const dialogTitleEl = dialogNode.querySelector('.execution-header .execution-title');
-            const dialogTagEl = dialogNode.querySelector('.execution-header .subject-tag');
-            const dialogTimeEl = dialogNode.querySelector('.execution-header .time-value');
-
-            if (dialogTitleEl && taskTitleEl) {
-              dialogTitleEl.textContent = taskTitleEl.textContent.replace(/^[^\p{L}\p{N}]+/u, '').trim();
-            }
-
-            if (dialogTagEl && taskTagEl) {
-              const subjectClass = Array.from(taskTagEl.classList).find((className) => className.startsWith('tag-'));
-              dialogTagEl.className = ['subject-tag', subjectClass].filter(Boolean).join(' ');
-              dialogTagEl.textContent = taskTagEl.textContent.trim();
-            }
-
-            if (dialogTimeEl && taskTimeEl) {
-              const longTime = taskTimeEl.getAttribute('data-long') || taskTimeEl.textContent.trim();
-              const shortTime = taskTimeEl.getAttribute('data-short') || longTime;
-              dialogTimeEl.setAttribute('data-long', longTime);
-              dialogTimeEl.setAttribute('data-short', shortTime);
-              dialogTimeEl.textContent = '';
-            }
-          }
-
-          item.addEventListener('click', (e) => {
-            if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
-            hydrateDialogHeaderFromTask(item);
-            dialogNode.setAttribute('open', '');
-          });
-
-          hydrateExecutionState(dialogNode, sectionId, item);
-        });
-
-        refreshProgressUI();
-      };
+      const panelItems = document.querySelectorAll('.panel-task-item');
       
       // Seed isolated dialogs & attach bindings
-      refreshProgressUI();
-
-      function hydrateExecutionState(dlg, sectionId, sectionCard) {
-        const titleCheckbox = dlg.querySelector('.execution-header-left .execution-checkbox');
-        const allTaskCards = Array.from(dlg.querySelectorAll('.execution-card'));
-        const section = sectionStore.get(sectionId);
-
-        if (!section) return;
-
-        function applyTaskState(card, ctaBtn, internalCheckbox, isCompleted) {
-          card.dataset.isCompleted = String(isCompleted);
-          internalCheckbox.checked = isCompleted;
-          card.classList.toggle('is-completed', isCompleted);
-
-          if (isCompleted) {
-            ctaBtn.textContent = 'Completed';
-            ctaBtn.style.background = '#e2e8f0';
-            ctaBtn.style.color = '#64748b';
-            ctaBtn.style.pointerEvents = 'none';
-          } else {
-            ctaBtn.textContent = 'Start Now';
-            ctaBtn.style.background = '';
-            ctaBtn.style.color = '';
-            ctaBtn.style.pointerEvents = '';
-          }
+      panelItems.forEach((item, index) => {
+        let dialogNode;
+        
+        if (index === 0) {
+          dialogNode = baseDialog;
+        } else {
+          dialogNode = baseDialog.cloneNode(true);
+          dialogNode.id = 'executionDialog_' + index;
+          document.body.appendChild(dialogNode);
         }
 
-        allTaskCards.forEach((card, taskIndex) => {
+        // Dynamically override inline onclick bindings for all instances
+        const closeBtn = dialogNode.querySelector('.execution-close-btn');
+        if (closeBtn) {
+          closeBtn.removeAttribute('onclick');
+          closeBtn.addEventListener('click', function() {
+            this.closest('dialog').removeAttribute('open');
+          });
+        }
+
+        // Wire clicking task to open ITS specific dialog
+        item.addEventListener('click', (e) => {
+          if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
+          dialogNode.setAttribute('open', '');
+        });
+
+        // Hydrate Execution State Rules per instance
+        hydrateExecutionState(dialogNode);
+      });
+
+      function hydrateExecutionState(dlg) {
+        const titleCheckbox = dlg.querySelector('.execution-header-left .execution-checkbox');
+        const allTaskCards = Array.from(dlg.querySelectorAll('.execution-card'));
+
+        allTaskCards.forEach(card => {
           const ctaBtn = card.querySelector('.card-cta-btn');
           const internalCheckbox = card.querySelector('.execution-checkbox');
-          const task = section.tasks[taskIndex];
-
-          if (!task) return;
+          
+          card.dataset.isCompleted = 'false';
 
           if (ctaBtn && internalCheckbox) {
-            applyTaskState(card, ctaBtn, internalCheckbox, task.isCompleted);
-
-            internalCheckbox.addEventListener('change', () => {
-              task.isCompleted = internalCheckbox.checked;
-              applyTaskState(card, ctaBtn, internalCheckbox, task.isCompleted);
-              updateSectionCardUI(sectionId, sectionCard, titleCheckbox);
-            });
-
             ctaBtn.addEventListener('click', (e) => {
               e.stopPropagation();
 
-              if (task.isCompleted) {
+              if (card.dataset.isCompleted === 'true') {
                 return;
               }
 
-              task.isCompleted = true;
-              applyTaskState(card, ctaBtn, internalCheckbox, true);
-              updateSectionCardUI(sectionId, sectionCard, titleCheckbox);
+              card.dataset.isCompleted = 'true';
+              internalCheckbox.checked = true;
+              card.classList.add('is-completed');
+              
+              ctaBtn.textContent = 'Completed';
+              ctaBtn.style.background = '#e2e8f0';
+              ctaBtn.style.color = '#64748b';
+              ctaBtn.style.pointerEvents = 'none';
 
               alert('The student has completed the assignment!');
+
+              const allCompleted = allTaskCards.every(c => c.dataset.isCompleted === 'true');
+              if (allCompleted && titleCheckbox) {
+                titleCheckbox.checked = true;
+              }
             });
           }
         });
-
-        updateSectionCardUI(sectionId, sectionCard, titleCheckbox);
       }
     });
   </script>
@@ -4458,8 +3928,8 @@
     }
 
     .execution-checkbox:checked {
-      background: #10b981;
-      border-color: #10b981;
+      background: #2563eb;
+      border-color: #2563eb;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
       background-position: center;
       background-repeat: no-repeat;
@@ -4474,23 +3944,20 @@
     }
 
     .execution-close-btn {
-      background: #f1f5f9;
+      background: none;
       border: none;
-      color: #64748b;
+      color: #dc2626;
       cursor: pointer;
-      width: 32px;
-      height: 32px;
-      padding: 0;
+      padding: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 50%;
-      transition: all 0.2s;
+      border-radius: 6px;
+      transition: background 0.1s;
     }
 
     .execution-close-btn:hover {
-      background: #e2e8f0;
-      color: #334155;
+      background: #fee2e2;
     }
 
     .execution-body {
@@ -4566,6 +4033,19 @@
       color: #334155;
     }
 
+    .label-suggested {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #3b82f6;
+      background: #eff6ff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
     .card-meta {
       display: flex;
       align-items: center;
@@ -4576,7 +4056,8 @@
     }
 
     .card-cta-btn {
-      align-self: center;
+      align-self: flex-start;
+      margin-top: 10px;
       padding: 8px 16px;
       font-size: 13px;
       font-weight: 600;
@@ -4586,7 +4067,6 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.2s ease;
-      white-space: nowrap;
     }
 
     .card-cta-btn:hover {
@@ -4603,11 +4083,12 @@
           <span class="subject-tag tag-varc" style="padding: 4px 10px; font-size: 11px;">VARC</span>
           <div class="time-meta" style="font-size: 13px; font-weight: 500;">
             <span class="time-icon">⏱</span>
-            <span class="time-value" data-short="45m" data-long="45 min"></span>
+            <span class="time-value">30 min</span>
           </div>
         </div>
-        <button class="execution-close-btn" type="button" aria-label="Close dialog">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        <button class="execution-close-btn" type="button" aria-label="Close dialog"
+          onclick="document.getElementById('executionDialog').removeAttribute('open')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -4622,7 +4103,7 @@
             <path d="M12 20h9" />
             <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
           </svg>
-          <span style="font-weight:600; color:#475569; font-size:14px;">Today's Tasks (2)</span>
+          <span style="font-weight:600; color:#475569; font-size:14px;">Your Tasks (2)</span>
         </div>
         <div class="execution-scroller">
 
@@ -4633,6 +4114,16 @@
             <div class="card-content">
               <div class="card-title-row">
                 <span class="card-title">RC: Philosophy</span>
+                <span class="label-suggested">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18" />
+                    <path d="M3 12h18" />
+                    <path d="m5 5 14 14" />
+                    <path d="m19 5-14 14" />
+                  </svg>
+                  Suggested
+                </span>
               </div>
               <div class="card-meta">
                 <div class="time-meta"><span class="time-icon">⏱</span> <span class="time-value">15 min</span></div>
@@ -4640,8 +4131,8 @@
                 <span class="subject-tag"
                   style="background:#fef08a; color:#854d0e; border:none; padding:4px 8px; font-size:10px;">RC</span>
               </div>
+              <button class="card-cta-btn" type="button">Start Now</button>
             </div>
-            <button class="card-cta-btn" type="button">Start Now</button>
           </div>
 
           <div class="execution-card">
@@ -4651,6 +4142,16 @@
             <div class="card-content">
               <div class="card-title-row">
                 <span class="card-title">Analyze RC: Philosophy</span>
+                <span class="label-suggested">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18" />
+                    <path d="M3 12h18" />
+                    <path d="m5 5 14 14" />
+                    <path d="m19 5-14 14" />
+                  </svg>
+                  Suggested
+                </span>
               </div>
               <div class="card-meta">
                 <div class="time-meta"><span class="time-icon">⏱</span> <span class="time-value">15 min</span></div>
@@ -4658,8 +4159,8 @@
                 <span class="subject-tag"
                   style="background:#bfdbfe; color:#1e40af; border:none; padding:4px 8px; font-size:10px;">Analysis</span>
               </div>
+              <button class="card-cta-btn" type="button">Start Now</button>
             </div>
-            <button class="card-cta-btn" type="button">Start Now</button>
           </div>
 
         </div>
