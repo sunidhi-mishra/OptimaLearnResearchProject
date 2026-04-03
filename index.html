@@ -3812,9 +3812,37 @@
           });
         }
 
+        function hydrateDialogHeaderFromTask(taskItem) {
+          const taskTitleEl = taskItem.querySelector('.task-title');
+          const taskTagEl = taskItem.querySelector('.subject-tag');
+          const taskTimeEl = taskItem.querySelector('.time-value');
+          const dialogTitleEl = dialogNode.querySelector('.execution-header .execution-title');
+          const dialogTagEl = dialogNode.querySelector('.execution-header .subject-tag');
+          const dialogTimeEl = dialogNode.querySelector('.execution-header .time-value');
+
+          if (dialogTitleEl && taskTitleEl) {
+            dialogTitleEl.textContent = taskTitleEl.textContent.replace(/^[^\p{L}\p{N}]+/u, '').trim();
+          }
+
+          if (dialogTagEl && taskTagEl) {
+            const subjectClass = Array.from(taskTagEl.classList).find((className) => className.startsWith('tag-'));
+            dialogTagEl.className = ['subject-tag', subjectClass].filter(Boolean).join(' ');
+            dialogTagEl.textContent = taskTagEl.textContent.trim();
+          }
+
+          if (dialogTimeEl && taskTimeEl) {
+            const longTime = taskTimeEl.getAttribute('data-long') || taskTimeEl.textContent.trim();
+            const shortTime = taskTimeEl.getAttribute('data-short') || longTime;
+            dialogTimeEl.setAttribute('data-long', longTime);
+            dialogTimeEl.setAttribute('data-short', shortTime);
+            dialogTimeEl.textContent = '';
+          }
+        }
+
         // Wire clicking task to open ITS specific dialog
         item.addEventListener('click', (e) => {
           if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
+          hydrateDialogHeaderFromTask(item);
           dialogNode.setAttribute('open', '');
         });
 
@@ -4046,8 +4074,7 @@
     }
 
     .card-cta-btn {
-      align-self: flex-start;
-      margin-top: 10px;
+      align-self: center;
       padding: 8px 16px;
       font-size: 13px;
       font-weight: 600;
@@ -4057,6 +4084,7 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.2s ease;
+      white-space: nowrap;
     }
 
     .card-cta-btn:hover {
@@ -4073,7 +4101,7 @@
           <span class="subject-tag tag-varc" style="padding: 4px 10px; font-size: 11px;">VARC</span>
           <div class="time-meta" style="font-size: 13px; font-weight: 500;">
             <span class="time-icon">⏱</span>
-            <span class="time-value">30 min</span>
+            <span class="time-value" data-short="45m" data-long="45 min"></span>
           </div>
         </div>
         <button class="execution-close-btn" type="button" aria-label="Close dialog">
@@ -4110,8 +4138,8 @@
                 <span class="subject-tag"
                   style="background:#fef08a; color:#854d0e; border:none; padding:4px 8px; font-size:10px;">RC</span>
               </div>
-              <button class="card-cta-btn" type="button">Start Now</button>
             </div>
+            <button class="card-cta-btn" type="button">Start Now</button>
           </div>
 
           <div class="execution-card">
@@ -4128,8 +4156,8 @@
                 <span class="subject-tag"
                   style="background:#bfdbfe; color:#1e40af; border:none; padding:4px 8px; font-size:10px;">Analysis</span>
               </div>
-              <button class="card-cta-btn" type="button">Start Now</button>
             </div>
+            <button class="card-cta-btn" type="button">Start Now</button>
           </div>
 
         </div>
