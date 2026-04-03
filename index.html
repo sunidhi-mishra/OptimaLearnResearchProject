@@ -3167,72 +3167,7 @@
                 <div>
                   <h4 class="panel-section-title panel-section-title--primary">🚀 Today’s Plan </h4>
                   <p id="todaysPlanMicrocopy" style="margin: -4px 0 12px; font-size: 12px; color: #64748b;">Start today. Even 30 mins makes a difference.</p>
-                  <div class="panel-tasks">
-                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
-                      <span class="task-marker" aria-hidden="true"></span>
-                      <div class="task-content">
-                        <div class="task-info">
-                          <span class="task-title">📘 Overview of genres</span>
-                          <span class="task-subtitle">RC: Art, literature and culture</span>
-                        </div>
-                        <div class="task-meta-right">
-                          <span class="subject-tag tag-varc">VARC</span>
-                          <div class="time-meta">
-                            <span class="time-icon">⏱</span>
-                            <span class="time-value" data-short="45m" data-long="45 min"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Practical Implementation">
-                      <span class="task-marker" aria-hidden="true"></span>
-                      <div class="task-content">
-                        <div class="task-info">
-                          <span class="task-title">⚙️ Averages</span>
-                          <span class="task-subtitle">Theory: Shift & Scale</span>
-                        </div>
-                        <div class="task-meta-right">
-                          <span class="subject-tag tag-quant">QUANT</span>
-                          <div class="time-meta">
-                            <span class="time-icon">⏱</span>
-                            <span class="time-value" data-short="30m" data-long="30 min"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Something Related to AI">
-                      <span class="task-marker" aria-hidden="true"></span>
-                      <div class="task-content">
-                        <div class="task-info">
-                          <span class="task-title">🤖 Introduction to VARC</span>
-                          <span class="task-subtitle">Theory: The CAT VARC Section</span>
-                        </div>
-                        <div class="task-meta-right">
-                          <span class="subject-tag tag-varc">VARC</span>
-                          <div class="time-meta">
-                            <span class="time-icon">⏱</span>
-                            <span class="time-value" data-short="15m" data-long="15 min"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Solve a Product Problem">
-                      <span class="task-marker" aria-hidden="true"></span>
-                      <div class="task-content">
-                        <div class="task-info">
-                          <span class="task-title">🧩 Linear Arrangements</span>
-                          <span class="task-subtitle">Theory: Double / Multiple Rows</span>
-                        </div>
-                        <div class="task-meta-right">
-                          <span class="subject-tag tag-dilr">DILR</span>
-                          <div class="time-meta">
-                            <span class="time-icon">⏱</span>
-                            <span class="time-value" data-short="60m" data-long="60 min"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <div class="panel-tasks" id="todayPlanTasks"></div>
                 </div>
 
                 <div>
@@ -3650,8 +3585,14 @@
     const panelWeekday = document.getElementById('panelWeekday');
     const panelDayBig = document.getElementById('panelDayBig');
     const panelMonthYear = document.getElementById('panelMonthYear');
+    const dashboardMonthNavPrev = document.querySelector('.dashboard-month-nav .calendar-nav:first-of-type');
+    const dashboardMonthNavNext = document.querySelector('.dashboard-month-nav .calendar-nav:last-of-type');
+    const dashboardMonthLabel = document.querySelector('.dashboard-month-nav .month-label');
+    const dashboardCalendarGrid = document.querySelector('.calendar-grid-large');
+    const todayPlanTasksWrap = document.getElementById('todayPlanTasks');
     const dashboardState = {
       selectedDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+      visibleMonth: new Date(today.getFullYear(), today.getMonth(), 1),
       panelOpen: false,
     };
     let isPanelExpanded = false;
@@ -3670,13 +3611,165 @@
     }
 
     function getDashboardVisibleMonthYear() {
-      const labelText = document.querySelector('.dashboard-month-nav .month-label')?.textContent?.trim();
-      const parsedDate = labelText ? new Date(`${labelText} 1`) : new Date(NaN);
-      if (!Number.isNaN(parsedDate.getTime())) {
-        return { year: parsedDate.getFullYear(), month: parsedDate.getMonth() };
+      return {
+        year: dashboardState.visibleMonth.getFullYear(),
+        month: dashboardState.visibleMonth.getMonth(),
+      };
+    }
+
+    function isWeekendDate(dateObj) {
+      const dayIndex = dateObj.getDay();
+      return dayIndex === 0 || dayIndex === 6;
+    }
+
+    function getDashboardDayTotal(dateObj) {
+      return isWeekendDate(dateObj) ? 3 : 4;
+    }
+
+    function getDayPlanKey(dateObj) {
+      return formatIso(dateObj);
+    }
+
+    function getTaskTemplatesForDate(dateObj) {
+      const weekdayTasks = [
+        {
+          title: '📘 Overview of genres',
+          subtitle: 'RC: Art, literature and culture',
+          tagLabel: 'VARC',
+          tagClass: 'tag-varc',
+          timeShort: '45m',
+          timeLong: '45 min',
+          ariaLabel: 'Learn PM Theory Concepts',
+        },
+        {
+          title: '⚙️ Averages',
+          subtitle: 'Theory: Shift & Scale',
+          tagLabel: 'QUANT',
+          tagClass: 'tag-quant',
+          timeShort: '30m',
+          timeLong: '30 min',
+          ariaLabel: 'Learn Practical Implementation',
+        },
+        {
+          title: '🤖 Introduction to VARC',
+          subtitle: 'Theory: The CAT VARC Section',
+          tagLabel: 'VARC',
+          tagClass: 'tag-varc',
+          timeShort: '15m',
+          timeLong: '15 min',
+          ariaLabel: 'Learn Something Related to AI',
+        },
+        {
+          title: '🧩 Linear Arrangements',
+          subtitle: 'Theory: Double / Multiple Rows',
+          tagLabel: 'DILR',
+          tagClass: 'tag-dilr',
+          timeShort: '60m',
+          timeLong: '60 min',
+          ariaLabel: 'Solve a Product Problem',
+        },
+      ];
+
+      const weekendTasks = weekdayTasks.slice(0, 3);
+      return isWeekendDate(dateObj) ? weekendTasks : weekdayTasks;
+    }
+
+    let bindTodayPlanTasks = () => {};
+
+    function createPlanTaskHtml(task) {
+      return `
+        <div class="panel-task-item" role="button" tabindex="0" aria-label="${task.ariaLabel}">
+          <span class="task-marker" aria-hidden="true"></span>
+          <div class="task-content">
+            <div class="task-info">
+              <span class="task-title">${task.title}</span>
+              <span class="task-subtitle">${task.subtitle}</span>
+            </div>
+            <div class="task-meta-right">
+              <span class="subject-tag ${task.tagClass}">${task.tagLabel}</span>
+              <div class="time-meta">
+                <span class="time-icon">⏱</span>
+                <span class="time-value" data-short="${task.timeShort}" data-long="${task.timeLong}"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDashboardCalendar() {
+      if (!dashboardCalendarGrid || !dashboardMonthLabel) {
+        return;
       }
 
-      return { year: today.getFullYear(), month: today.getMonth() };
+      const { year, month } = getDashboardVisibleMonthYear();
+      const firstWeekday = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const monthLabel = new Date(year, month, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      const selectedDateIso = dashboardState.selectedDate ? formatIso(dashboardState.selectedDate) : null;
+
+      dashboardMonthLabel.textContent = monthLabel;
+      dashboardCalendarGrid.innerHTML = '';
+
+      for (let index = 0; index < 42; index += 1) {
+        let card;
+
+        if (index < firstWeekday || index >= firstWeekday + daysInMonth) {
+          card = document.createElement('div');
+          card.className = 'dashboard-day-card is-empty';
+          dashboardCalendarGrid.appendChild(card);
+          continue;
+        }
+
+        const dayNumber = index - firstWeekday + 1;
+        const cellDate = new Date(year, month, dayNumber);
+        const isWeekend = isWeekendDate(cellDate);
+        const totalTasks = getDashboardDayTotal(cellDate);
+        const dayIso = formatIso(cellDate);
+
+        card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'dashboard-day-card';
+        card.dataset.date = dayIso;
+        card.dataset.totalTasks = String(totalTasks);
+        card.setAttribute('aria-label', `${cellDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}`);
+
+        if (isWeekend) {
+          card.classList.add('is-weekend');
+        }
+        if (isSameDay(cellDate, today)) {
+          card.classList.add('is-today');
+        }
+        if (selectedDateIso === dayIso) {
+          card.classList.add('is-selected');
+        }
+
+        card.innerHTML = `
+          <div class="day-num">${String(dayNumber).padStart(2, '0')}</div>
+          <div class="day-frac">0/${totalTasks}</div>
+          <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span class="dot pending"></span></div>
+        `;
+
+        card.addEventListener('click', () => {
+          setDashboardSelectedDate(cellDate);
+          openDashboardPanel();
+        });
+
+        dashboardCalendarGrid.appendChild(card);
+      }
+    }
+
+    function renderTodayPlan(dateObj) {
+      if (!todayPlanTasksWrap) {
+        return;
+      }
+
+      const planTasks = getTaskTemplatesForDate(dateObj);
+      const planKey = getDayPlanKey(dateObj);
+
+      todayPlanTasksWrap.innerHTML = planTasks.map(createPlanTaskHtml).join('');
+
+      bindTodayPlanTasks(planKey);
     }
 
     function updatePanelDateInfo(dateObj) {
@@ -3697,14 +3790,13 @@
     }
 
     function getDateFromDayCard(card) {
-      const dayText = card.querySelector('.day-num')?.textContent?.trim();
-      const dayNumber = Number(dayText);
-      if (!dayNumber) {
+      const dateValue = card.dataset.date;
+      if (!dateValue) {
         return null;
       }
 
-      const visibleMonth = getDashboardVisibleMonthYear();
-      return new Date(visibleMonth.year, visibleMonth.month, dayNumber);
+      const parsedDate = new Date(`${dateValue}T00:00:00`);
+      return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
     }
 
     function getDateFromStartSelection() {
@@ -3726,9 +3818,8 @@
     }
 
     function getDashboardCardByDate(dateObj) {
-      const dayText = String(dateObj.getDate()).padStart(2, '0');
-      return Array.from(document.querySelectorAll('.dashboard-day-card:not(.is-empty)'))
-        .find((card) => card.querySelector('.day-num')?.textContent?.trim() === dayText);
+      const dateValue = formatIso(dateObj);
+      return dashboardCalendarGrid?.querySelector(`.dashboard-day-card[data-date="${dateValue}"]`) || null;
     }
 
     function setDashboardSelectedDate(dateObj) {
@@ -3738,14 +3829,13 @@
 
       dashboardState.selectedDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
 
-      document.querySelectorAll('.dashboard-day-card').forEach((card) => card.classList.remove('is-selected'));
-
-      const matchingCard = getDashboardCardByDate(dashboardState.selectedDate);
-      if (matchingCard) {
-        matchingCard.classList.add('is-selected');
-      }
+      dashboardState.visibleMonth = new Date(dateObj.getFullYear(), dateObj.getMonth(), 1);
+      renderDashboardCalendar();
+      renderTodayPlan(dashboardState.selectedDate);
+      openDashboardPanel();
 
       updatePanelDateInfo(dashboardState.selectedDate);
+      refreshProgressUI();
     }
 
     function openDashboardPanel() {
@@ -3770,27 +3860,29 @@
       }
     }
 
-    document.querySelectorAll('.dashboard-day-card:not(.is-empty)').forEach(card => {
-      card.addEventListener('click', () => {
-        // Remove selected state from all cards
-        document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-selected'));
-        // Set clicked card as selected
-        card.classList.add('is-selected');
-        const selectedDate = getDateFromDayCard(card);
-        if (selectedDate) {
-          dashboardState.selectedDate = selectedDate;
-        }
-
-        if (dashboardViewEl && !dashboardViewEl.classList.contains('panel-open')) {
-          dashboardViewEl.classList.add('panel-open');
-        }
-        dashboardState.panelOpen = true;
-
-        if (selectedDate) {
-          updatePanelDateInfo(selectedDate);
-        }
+    if (dashboardMonthNavPrev) {
+      dashboardMonthNavPrev.addEventListener('click', () => {
+        dashboardState.visibleMonth = new Date(
+          dashboardState.visibleMonth.getFullYear(),
+          dashboardState.visibleMonth.getMonth() - 1,
+          1,
+        );
+        renderDashboardCalendar();
+        refreshProgressUI();
       });
-    });
+    }
+
+    if (dashboardMonthNavNext) {
+      dashboardMonthNavNext.addEventListener('click', () => {
+        dashboardState.visibleMonth = new Date(
+          dashboardState.visibleMonth.getFullYear(),
+          dashboardState.visibleMonth.getMonth() + 1,
+          1,
+        );
+        renderDashboardCalendar();
+        refreshProgressUI();
+      });
+    }
 
     const closePanelBtn = document.getElementById('closePanelBtn');
     if (panelExpandBtn) {
@@ -3814,7 +3906,7 @@
       const baseDialog = document.getElementById('executionDialog');
       if (!baseDialog) return;
 
-      const panelItems = document.querySelectorAll('.panel-task-item');
+      let panelItems = [];
       const sectionStore = new Map();
       const panelRadialProgress = document.querySelector('.panel-radial-progress');
       const panelRadialLabel = panelRadialProgress?.querySelector('span');
@@ -3844,8 +3936,8 @@
 
       function getProgressMetrics() {
         const totalTasks = panelItems.length;
-        const completedTasks = Array.from(sectionStore.keys())
-          .reduce((count, sectionId) => count + (getSectionCompletion(sectionId) ? 1 : 0), 0);
+        const completedTasks = panelItems
+          .reduce((count, item) => count + (getSectionCompletion(item.dataset.sectionId) ? 1 : 0), 0);
         const leftTasks = Math.max(0, totalTasks - completedTasks);
         const progress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
@@ -3956,72 +4048,82 @@
 
         refreshProgressUI();
       }
-      
-      // Seed isolated dialogs & attach bindings
-      panelItems.forEach((item, index) => {
-        let dialogNode;
-        const sectionId = `section-${index}`;
-        
-        if (index === 0) {
-          dialogNode = baseDialog;
-        } else {
-          dialogNode = baseDialog.cloneNode(true);
-          dialogNode.id = 'executionDialog_' + index;
-          document.body.appendChild(dialogNode);
+
+      bindTodayPlanTasks = function bindTodayPlanTasks(planKey) {
+        if (!todayPlanTasksWrap) {
+          return;
         }
 
-        const taskCount = dialogNode.querySelectorAll('.execution-card').length;
-        initializeSectionState(sectionId, taskCount);
-        item.dataset.sectionId = sectionId;
-        dialogNode.dataset.sectionId = sectionId;
+        document.querySelectorAll('[data-plan-dialog-clone="true"]').forEach((dialogNode) => dialogNode.remove());
 
-        // Dynamically override inline onclick bindings for all instances
-        const closeBtn = dialogNode.querySelector('.execution-close-btn');
-        if (closeBtn) {
-          closeBtn.removeAttribute('onclick');
-          closeBtn.addEventListener('click', function() {
-            this.closest('dialog').removeAttribute('open');
+        panelItems = Array.from(todayPlanTasksWrap.querySelectorAll('.panel-task-item'));
+
+        panelItems.forEach((item, index) => {
+          let dialogNode;
+          const sectionId = `${planKey}-${index}`;
+
+          item.dataset.sectionId = sectionId;
+
+          if (index === 0) {
+            dialogNode = baseDialog;
+          } else {
+            dialogNode = baseDialog.cloneNode(true);
+            dialogNode.id = `executionDialog_${planKey}_${index}`;
+            dialogNode.dataset.planDialogClone = 'true';
+            document.body.appendChild(dialogNode);
+          }
+
+          const taskCount = dialogNode.querySelectorAll('.execution-card').length;
+          initializeSectionState(sectionId, taskCount);
+
+          const closeBtn = dialogNode.querySelector('.execution-close-btn');
+          if (closeBtn) {
+            closeBtn.removeAttribute('onclick');
+            closeBtn.addEventListener('click', function() {
+              this.closest('dialog').removeAttribute('open');
+            });
+          }
+
+          function hydrateDialogHeaderFromTask(taskItem) {
+            const taskTitleEl = taskItem.querySelector('.task-title');
+            const taskTagEl = taskItem.querySelector('.subject-tag');
+            const taskTimeEl = taskItem.querySelector('.time-value');
+            const dialogTitleEl = dialogNode.querySelector('.execution-header .execution-title');
+            const dialogTagEl = dialogNode.querySelector('.execution-header .subject-tag');
+            const dialogTimeEl = dialogNode.querySelector('.execution-header .time-value');
+
+            if (dialogTitleEl && taskTitleEl) {
+              dialogTitleEl.textContent = taskTitleEl.textContent.replace(/^[^\p{L}\p{N}]+/u, '').trim();
+            }
+
+            if (dialogTagEl && taskTagEl) {
+              const subjectClass = Array.from(taskTagEl.classList).find((className) => className.startsWith('tag-'));
+              dialogTagEl.className = ['subject-tag', subjectClass].filter(Boolean).join(' ');
+              dialogTagEl.textContent = taskTagEl.textContent.trim();
+            }
+
+            if (dialogTimeEl && taskTimeEl) {
+              const longTime = taskTimeEl.getAttribute('data-long') || taskTimeEl.textContent.trim();
+              const shortTime = taskTimeEl.getAttribute('data-short') || longTime;
+              dialogTimeEl.setAttribute('data-long', longTime);
+              dialogTimeEl.setAttribute('data-short', shortTime);
+              dialogTimeEl.textContent = '';
+            }
+          }
+
+          item.addEventListener('click', (e) => {
+            if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
+            hydrateDialogHeaderFromTask(item);
+            dialogNode.setAttribute('open', '');
           });
-        }
 
-        function hydrateDialogHeaderFromTask(taskItem) {
-          const taskTitleEl = taskItem.querySelector('.task-title');
-          const taskTagEl = taskItem.querySelector('.subject-tag');
-          const taskTimeEl = taskItem.querySelector('.time-value');
-          const dialogTitleEl = dialogNode.querySelector('.execution-header .execution-title');
-          const dialogTagEl = dialogNode.querySelector('.execution-header .subject-tag');
-          const dialogTimeEl = dialogNode.querySelector('.execution-header .time-value');
-
-          if (dialogTitleEl && taskTitleEl) {
-            dialogTitleEl.textContent = taskTitleEl.textContent.replace(/^[^\p{L}\p{N}]+/u, '').trim();
-          }
-
-          if (dialogTagEl && taskTagEl) {
-            const subjectClass = Array.from(taskTagEl.classList).find((className) => className.startsWith('tag-'));
-            dialogTagEl.className = ['subject-tag', subjectClass].filter(Boolean).join(' ');
-            dialogTagEl.textContent = taskTagEl.textContent.trim();
-          }
-
-          if (dialogTimeEl && taskTimeEl) {
-            const longTime = taskTimeEl.getAttribute('data-long') || taskTimeEl.textContent.trim();
-            const shortTime = taskTimeEl.getAttribute('data-short') || longTime;
-            dialogTimeEl.setAttribute('data-long', longTime);
-            dialogTimeEl.setAttribute('data-short', shortTime);
-            dialogTimeEl.textContent = '';
-          }
-        }
-
-        // Wire clicking task to open ITS specific dialog
-        item.addEventListener('click', (e) => {
-          if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
-          hydrateDialogHeaderFromTask(item);
-          dialogNode.setAttribute('open', '');
+          hydrateExecutionState(dialogNode, sectionId, item);
         });
 
-        // Hydrate Execution State Rules per instance
-        hydrateExecutionState(dialogNode, sectionId, item);
-      });
-
+        refreshProgressUI();
+      };
+      
+      // Seed isolated dialogs & attach bindings
       refreshProgressUI();
 
       function hydrateExecutionState(dlg, sectionId, sectionCard) {
