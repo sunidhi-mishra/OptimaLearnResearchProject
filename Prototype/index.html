@@ -3082,7 +3082,7 @@
             <div class="day-detail-panel" id="sidePanel">
               <div class="panel-header">
                 <div class="panel-date-info">
-                    <span class="panel-weekday"><span id="panelDayType">WEEKDAY</span>: <span class="panel-weekday-day"
+                  <span class="panel-weekday"><span id="panelDayType">WEEKDAY</span>: <span class="panel-weekday-day"
                       id="panelWeekday">THURSDAY</span></span>
                   <div class="panel-date-row">
                     <span class="panel-day-big" id="panelDayBig">16</span>
@@ -3141,7 +3141,7 @@
 
               <div class="panel-scroll-area">
                 <div>
-                  <h4 class="panel-section-title">SECTIONS</h4>
+                  <h4 class="panel-section-title">✅ Today’s Plan </h4>
                   <div class="panel-tasks">
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
                       <span class="task-marker" aria-hidden="true"></span>
@@ -3782,7 +3782,376 @@
         document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-selected'));
       });
     }
+
+    // Task Execution Dialog Linkage
+    document.querySelectorAll('.panel-task-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        // Prevent opening if they click the checkbox marker itself
+        if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
+
+        const dialog = document.getElementById('executionDialog');
+        if (dialog) dialog.setAttribute('open', '');
+      });
+    });
+
+    // 🧩 STATE MANAGEMENT & INTERACTION LOGIC
+    // Core Principle: "Actions should drive state."
+    document.addEventListener('DOMContentLoaded', () => {
+      const dialog = document.getElementById('executionDialog');
+      if (!dialog) return;
+
+      const titleCheckbox = dialog.querySelector('.execution-header-left .execution-checkbox');
+      const allTaskCards = Array.from(dialog.querySelectorAll('.execution-card'));
+
+      // 1. Checkbox control implementation: Enforce system state only
+      // Native clicks on checkbox are prevented via CSS pointer-events:none
+      
+      allTaskCards.forEach(card => {
+        const ctaBtn = card.querySelector('.card-cta-btn');
+        const internalCheckbox = card.querySelector('.execution-checkbox');
+        
+        // Initial state definition
+        card.dataset.isCompleted = 'false';
+
+        if (ctaBtn && internalCheckbox) {
+          ctaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Handle edge case: No duplicate state change
+            if (card.dataset.isCompleted === 'true') {
+              return;
+            }
+
+            // 1. Update individual task state
+            card.dataset.isCompleted = 'true';
+            
+            // 2. Update UI: Checkbox and button feedback
+            internalCheckbox.checked = true;
+            card.classList.add('is-completed');
+            
+            ctaBtn.textContent = 'Completed';
+            ctaBtn.style.background = '#e2e8f0';
+            ctaBtn.style.color = '#64748b';
+            ctaBtn.style.pointerEvents = 'none'; // Lock interaction
+
+            // Notify user
+            alert('The student has completed the assignment!');
+
+            // 3. Parent Checkbox Logic (evaluate full completion)
+            const allCompleted = allTaskCards.every(c => c.dataset.isCompleted === 'true');
+            if (allCompleted && titleCheckbox) {
+              titleCheckbox.checked = true;
+            }
+          });
+        }
+      });
+    });
   </script>
+
+  <!-- Task Execution Dialog Prototype -->
+  <style>
+    .execution-dialog {
+      position: fixed;
+      inset: 0;
+      margin: auto;
+      padding: 0;
+      border: none;
+      background: transparent;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(15, 23, 42, 0.4);
+    }
+
+    .execution-dialog:not([open]) {
+      display: none;
+    }
+
+    .execution-dialog-container {
+      background: #ffffff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      font-family: inherit;
+    }
+
+    .execution-header {
+      padding: 24px 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      background: #ffffff;
+    }
+
+    .execution-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .execution-checkbox {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      cursor: pointer;
+      flex: 0 0 auto;
+      transition: all 0.2s;
+    }
+
+    .execution-checkbox:checked {
+      background: #2563eb;
+      border-color: #2563eb;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 14px;
+    }
+
+    .execution-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    .execution-close-btn {
+      background: none;
+      border: none;
+      color: #dc2626;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: background 0.1s;
+    }
+
+    .execution-close-btn:hover {
+      background: #fee2e2;
+    }
+
+    .execution-body {
+      padding: 0 24px 24px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .execution-list-header {
+      display: flex;
+      align-items: center;
+      padding: 20px 0 16px;
+    }
+
+    .execution-scroller {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .execution-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .execution-card:hover {
+      border-color: #cbd5e1;
+    }
+
+    /* Completed state visual feedback */
+    .execution-card.is-completed {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      opacity: 0.7;
+    }
+    
+    .execution-card.is-completed .card-title {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+
+    .execution-card .card-left {
+      margin-top: 2px;
+    }
+
+    .execution-card .card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .label-suggested {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #3b82f6;
+      background: #eff6ff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #64748b;
+    }
+
+    .card-cta-btn {
+      align-self: flex-start;
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #2563eb;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .card-cta-btn:hover {
+      background: #1d4ed8;
+    }
+  </style>
+
+  <dialog id="executionDialog" class="execution-dialog">
+    <div class="execution-dialog-container">
+      <div class="execution-header">
+        <div class="execution-header-left">
+          <input type="checkbox" class="execution-checkbox" />
+          <h2 class="execution-title">Overview of genres</h2>
+          <span class="subject-tag tag-varc" style="padding: 4px 10px; font-size: 11px;">VARC</span>
+          <div class="time-meta" style="font-size: 13px; font-weight: 500;">
+            <span class="time-icon">⏱</span>
+            <span class="time-value">30 min</span>
+          </div>
+        </div>
+        <button class="execution-close-btn" type="button" aria-label="Close dialog"
+          onclick="document.getElementById('executionDialog').removeAttribute('open')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="execution-body">
+        <div class="execution-list-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;">
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+          </svg>
+          <span style="font-weight:600; color:#475569; font-size:14px;">Your Tasks (2)</span>
+        </div>
+        <div class="execution-scroller">
+
+          <div class="execution-card">
+            <div class="card-left">
+              <input type="checkbox" class="execution-checkbox" />
+            </div>
+            <div class="card-content">
+              <div class="card-title-row">
+                <span class="card-title">RC: Philosophy</span>
+                <span class="label-suggested">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18" />
+                    <path d="M3 12h18" />
+                    <path d="m5 5 14 14" />
+                    <path d="m19 5-14 14" />
+                  </svg>
+                  Suggested
+                </span>
+              </div>
+              <div class="card-meta">
+                <div class="time-meta"><span class="time-icon">⏱</span> <span class="time-value">15 min</span></div>
+                <span class="meta-dot">•</span>
+                <span class="subject-tag"
+                  style="background:#fef08a; color:#854d0e; border:none; padding:4px 8px; font-size:10px;">RC</span>
+              </div>
+              <button class="card-cta-btn" type="button">Start Now</button>
+            </div>
+          </div>
+
+          <div class="execution-card">
+            <div class="card-left">
+              <input type="checkbox" class="execution-checkbox" />
+            </div>
+            <div class="card-content">
+              <div class="card-title-row">
+                <span class="card-title">Analyze RC: Philosophy</span>
+                <span class="label-suggested">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18" />
+                    <path d="M3 12h18" />
+                    <path d="m5 5 14 14" />
+                    <path d="m19 5-14 14" />
+                  </svg>
+                  Suggested
+                </span>
+              </div>
+              <div class="card-meta">
+                <div class="time-meta"><span class="time-icon">⏱</span> <span class="time-value">15 min</span></div>
+                <span class="meta-dot">•</span>
+                <span class="subject-tag"
+                  style="background:#bfdbfe; color:#1e40af; border:none; padding:4px 8px; font-size:10px;">Analysis</span>
+              </div>
+              <button class="card-cta-btn" type="button">Start Now</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </dialog>
 </body>
 
 </html>
