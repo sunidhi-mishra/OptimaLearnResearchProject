@@ -1709,22 +1709,29 @@
 
     .task-content {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
       flex: 1;
-      /* Allows spacing header horizontally */
       min-width: 0;
       container-type: inline-size;
       container-name: taskcontent;
     }
 
-    .task-header {
+    .task-info {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      width: 100%;
-      flex-wrap: nowrap;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .task-meta-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
     }
 
     .subject-tag {
@@ -3139,56 +3146,64 @@
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <div class="task-header">
+                        <div class="task-info">
                           <span class="task-title">📘 Overview of genres</span>
-                          <span class="subject-tag tag-varc">VARC</span>
+                          <span class="task-subtitle">RC: Art, literature and culture</span>
                         </div>
-                        <span class="task-subtitle">RC: Art, literature and culture</span>
-                        <div class="time-meta">
-                          <span class="time-icon">⏱</span>
-                          <span class="time-value" data-short="45m" data-long="45 min"></span>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-varc">VARC</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="45m" data-long="45 min"></span>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Practical Implementation">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <div class="task-header">
+                        <div class="task-info">
                           <span class="task-title">⚙️ Averages</span>
-                          <span class="subject-tag tag-quant">QUANT</span>
+                          <span class="task-subtitle">Theory: Shift & Scale</span>
                         </div>
-                        <span class="task-subtitle">Theory: Shift & Scale</span>
-                        <div class="time-meta">
-                          <span class="time-icon">⏱</span>
-                          <span class="time-value" data-short="30m" data-long="30 min"></span>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-quant">QUANT</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="30m" data-long="30 min"></span>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Something Related to AI">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <div class="task-header">
+                        <div class="task-info">
                           <span class="task-title">🤖 Introduction to VARC</span>
-                          <span class="subject-tag tag-varc">VARC</span>
+                          <span class="task-subtitle">Theory: The CAT VARC Section</span>
                         </div>
-                        <span class="task-subtitle">Theory: The CAT VARC Section</span>
-                        <div class="time-meta">
-                          <span class="time-icon">⏱</span>
-                          <span class="time-value" data-short="15m" data-long="15 min"></span>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-varc">VARC</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="15m" data-long="15 min"></span>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Solve a Product Problem">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <div class="task-header">
+                        <div class="task-info">
                           <span class="task-title">🧩 Linear Arrangements</span>
-                          <span class="subject-tag tag-dilr">DILR</span>
+                          <span class="task-subtitle">Theory: Double / Multiple Rows</span>
                         </div>
-                        <span class="task-subtitle">Theory: Double / Multiple Rows</span>
-                        <div class="time-meta">
-                          <span class="time-icon">⏱</span>
-                          <span class="time-value" data-short="60m" data-long="60 min"></span>
+                        <div class="task-meta-right">
+                          <span class="subject-tag tag-dilr">DILR</span>
+                          <div class="time-meta">
+                            <span class="time-icon">⏱</span>
+                            <span class="time-value" data-short="60m" data-long="60 min"></span>
+                          </div>
                         </div>
                       </div>
                     </div>
