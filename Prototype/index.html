@@ -1556,12 +1556,16 @@
       color: #0f172a;
     }
 
-    .panel-expand-btn.is-expanded svg {
-      transform: rotate(180deg);
+    .panel-expand-icon--collapse {
+      display: none;
     }
 
-    .panel-expand-btn svg {
-      transition: transform 220ms ease;
+    .panel-expand-btn.is-expanded .panel-expand-icon--expand {
+      display: none;
+    }
+
+    .panel-expand-btn.is-expanded .panel-expand-icon--collapse {
+      display: block;
     }
 
     .panel-stats-grid {
@@ -2848,12 +2852,19 @@
                   </div>
                   <button class="panel-icon-btn panel-expand-btn" type="button" id="panelExpandBtn" aria-label="Expand panel"
                     aria-pressed="false" title="Expand panel">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    <svg class="panel-expand-icon--expand" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <polyline points="9 3 3 3 3 9"></polyline>
                       <line x1="3" y1="3" x2="10" y2="10"></line>
                       <polyline points="15 21 21 21 21 15"></polyline>
                       <line x1="14" y1="14" x2="21" y2="21"></line>
+                    </svg>
+                    <svg class="panel-expand-icon--collapse" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="21" y1="3" x2="14" y2="10"></line>
+                      <polyline points="9 21 3 21 3 15"></polyline>
+                      <line x1="3" y1="21" x2="10" y2="14"></line>
                     </svg>
                   </button>
                   <button class="panel-icon-btn panel-close-btn" type="button" id="closePanelBtn">
@@ -2889,29 +2900,29 @@
                   <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
                     <span class="task-marker" aria-hidden="true"></span>
                     <div class="task-content">
-                      <span class="task-title">📘 Learn PM Theory Concepts</span>
-                      <span class="task-subtitle">Refer Notion Learning checklist</span>
+                      <span class="task-title">📘 Overview of genres</span>
+                      <span class="task-subtitle">RC: Art, literature and culture</span>
                     </div>
                   </div>
                   <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Practical Implementation">
                     <span class="task-marker" aria-hidden="true"></span>
                     <div class="task-content">
-                      <span class="task-title">⚙️ Learn Practical Implementation</span>
-                      <span class="task-subtitle">Excel / Google sheets</span>
+                      <span class="task-title">⚙️ Averages</span>
+                      <span class="task-subtitle">Theory: Shift & Scale</span>
                     </div>
                   </div>
                   <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Something Related to AI">
                     <span class="task-marker" aria-hidden="true"></span>
                     <div class="task-content">
-                      <span class="task-title">🤖 Learn Something Related to AI</span>
-                      <span class="task-subtitle">Vibe Coding using Antigravity</span>
+                      <span class="task-title">🤖 Introduction to VARC</span>
+                      <span class="task-subtitle">Theory: The CAT VARC Section</span>
                     </div>
                   </div>
                   <div class="panel-task-item" role="button" tabindex="0" aria-label="Solve a Product Problem">
                     <span class="task-marker" aria-hidden="true"></span>
                     <div class="task-content">
-                      <span class="task-title">🧩 Solve a Product Problem</span>
-                      <span class="task-subtitle">Document it properly & post on LinkedIn</span>
+                      <span class="task-title">🧩 Linear Arrangements</span>
+                      <span class="task-subtitle">Theory: Double / Multiple Rows</span>
                     </div>
                   </div>
                 </div>
