@@ -1696,29 +1696,43 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
     }
 
-    .panel-task-item.is-completed {
+    .panel-task-item.is-completed,
+    .panel-task-item.is-selected {
       background: #f8fafc;
       border-color: #cbd5e1;
-      opacity: 0.72;
+    }
+
+    /* Semantic Highlight application based on inner tag */
+    .panel-task-item:has(.tag-varc).is-completed,
+    .panel-task-item:has(.tag-varc).is-selected {
+      border-color: rgba(245, 158, 11, 0.5); /* subtle solid */
+      background: rgba(245, 158, 11, 0.05); /* 5% tint */
+    }
+
+    .panel-task-item:has(.tag-quant).is-completed,
+    .panel-task-item:has(.tag-quant).is-selected {
+      border-color: rgba(139, 92, 246, 0.5);
+      background: rgba(139, 92, 246, 0.05);
+    }
+
+    .panel-task-item:has(.tag-dilr).is-completed,
+    .panel-task-item:has(.tag-dilr).is-selected {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(16, 185, 129, 0.05);
     }
 
     .panel-task-item.is-completed .task-title {
-      text-decoration: line-through;
       color: #64748b;
     }
 
-    .panel-task-item.is-completed .task-subtitle,
-    .panel-task-item.is-completed .time-meta {
-      color: #94a3b8;
-    }
-
     .panel-task-item.is-completed .task-marker {
-      border-color: #2563eb;
-      background: #2563eb;
+      border-color: #16a34a;
+      background-color: #16a34a;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: center;
       background-size: 12px;
+      box-shadow: none;
     }
 
     .task-marker {
@@ -3166,7 +3180,7 @@
 
               <div class="panel-scroll-area">
                 <div>
-                  <h4 class="panel-section-title">✅ Today’s Plan </h4>
+                  <h4 class="panel-section-title">🚀 Today’s Plan </h4>
                   <div class="panel-tasks">
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
                       <span class="task-marker" aria-hidden="true"></span>
@@ -3815,10 +3829,127 @@
       if (!baseDialog) return;
 
       const panelItems = document.querySelectorAll('.panel-task-item');
+      const sectionStore = new Map();
+      const panelRadialProgress = document.querySelector('.panel-radial-progress');
+      const panelRadialLabel = panelRadialProgress?.querySelector('span');
+      const doneStatValue = document.querySelector('.panel-stat-val.done');
+      const totalStatValue = document.querySelector('.panel-stat-val.total');
+      const leftStatValue = document.querySelector('.panel-stat-val.left');
+      const DOTS_PER_DAY_CARD = 3;
+
+      function initializeSectionState(sectionId, taskCount) {
+        if (sectionStore.has(sectionId)) return;
+
+        sectionStore.set(sectionId, {
+          sectionId,
+          tasks: Array.from({ length: taskCount }, (_, taskIndex) => ({
+            taskId: `${sectionId}-task-${taskIndex}`,
+            isCompleted: false,
+          })),
+        });
+      }
+
+      function getSectionCompletion(sectionId) {
+        const section = sectionStore.get(sectionId);
+        if (!section) return false;
+        return section.tasks.every((task) => task.isCompleted);
+      }
+
+      function getProgressMetrics() {
+        const totalTasks = panelItems.length;
+        const completedTasks = Array.from(sectionStore.keys())
+          .reduce((count, sectionId) => count + (getSectionCompletion(sectionId) ? 1 : 0), 0);
+        const leftTasks = Math.max(0, totalTasks - completedTasks);
+        const progress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+
+        return {
+          totalTasks,
+          completedTasks,
+          leftTasks,
+          progress,
+        };
+      }
+
+      function normalizeDashboardDots() {
+        document.querySelectorAll('.dashboard-day-card .day-dots').forEach((dotsWrap) => {
+          const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+
+          if (dots.length > DOTS_PER_DAY_CARD) {
+            dots.slice(DOTS_PER_DAY_CARD).forEach((dot) => dot.remove());
+          }
+
+          if (dots.length < DOTS_PER_DAY_CARD) {
+            const missingCount = DOTS_PER_DAY_CARD - dots.length;
+            for (let i = 0; i < missingCount; i += 1) {
+              const dot = document.createElement('span');
+              dot.className = 'dot pending';
+              dotsWrap.appendChild(dot);
+            }
+          }
+        });
+      }
+
+      function updateSelectedDayProgress(metrics) {
+        const selectedCard = document.querySelector('.dashboard-day-card.is-selected')
+          || (dashboardState.selectedDate ? getDashboardCardByDate(dashboardState.selectedDate) : null);
+
+        if (!selectedCard) return;
+
+        const dayFraction = selectedCard.querySelector('.day-frac');
+        if (dayFraction) {
+          dayFraction.textContent = `${metrics.completedTasks}/${metrics.totalTasks}`;
+        }
+
+        const dots = Array.from(selectedCard.querySelectorAll('.day-dots .dot'));
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('done', index < metrics.completedTasks);
+        });
+      }
+
+      function refreshProgressUI() {
+        normalizeDashboardDots();
+        const metrics = getProgressMetrics();
+
+        if (panelRadialProgress) {
+          panelRadialProgress.style.setProperty('--progress', `${metrics.progress}%`);
+        }
+
+        if (panelRadialLabel) {
+          panelRadialLabel.textContent = `${metrics.progress}%`;
+        }
+
+        if (doneStatValue) {
+          doneStatValue.textContent = String(metrics.completedTasks);
+        }
+
+        if (totalStatValue) {
+          totalStatValue.textContent = String(metrics.totalTasks);
+        }
+
+        if (leftStatValue) {
+          leftStatValue.textContent = String(metrics.leftTasks);
+        }
+
+        updateSelectedDayProgress(metrics);
+      }
+
+      function updateSectionCardUI(sectionId, sectionCard, dialogHeaderCheckbox) {
+        const isCompleted = getSectionCompletion(sectionId);
+
+        sectionCard.classList.toggle('is-completed', isCompleted);
+        sectionCard.setAttribute('aria-checked', String(isCompleted));
+
+        if (dialogHeaderCheckbox) {
+          dialogHeaderCheckbox.checked = isCompleted;
+        }
+
+        refreshProgressUI();
+      }
       
       // Seed isolated dialogs & attach bindings
       panelItems.forEach((item, index) => {
         let dialogNode;
+        const sectionId = `section-${index}`;
         
         if (index === 0) {
           dialogNode = baseDialog;
@@ -3828,6 +3959,11 @@
           document.body.appendChild(dialogNode);
         }
 
+        const taskCount = dialogNode.querySelectorAll('.execution-card').length;
+        initializeSectionState(sectionId, taskCount);
+        item.dataset.sectionId = sectionId;
+        dialogNode.dataset.sectionId = sectionId;
+
         // Dynamically override inline onclick bindings for all instances
         const closeBtn = dialogNode.querySelector('.execution-close-btn');
         if (closeBtn) {
@@ -3835,11 +3971,6 @@
           closeBtn.addEventListener('click', function() {
             this.closest('dialog').removeAttribute('open');
           });
-        }
-
-        function setPanelTaskCompleted(isCompleted) {
-          item.classList.toggle('is-completed', isCompleted);
-          item.setAttribute('aria-checked', String(isCompleted));
         }
 
         function hydrateDialogHeaderFromTask(taskItem) {
@@ -3877,59 +4008,69 @@
         });
 
         // Hydrate Execution State Rules per instance
-        hydrateExecutionState(dialogNode);
+        hydrateExecutionState(dialogNode, sectionId, item);
       });
 
-      function hydrateExecutionState(dlg) {
+      refreshProgressUI();
+
+      function hydrateExecutionState(dlg, sectionId, sectionCard) {
         const titleCheckbox = dlg.querySelector('.execution-header-left .execution-checkbox');
         const allTaskCards = Array.from(dlg.querySelectorAll('.execution-card'));
+        const section = sectionStore.get(sectionId);
 
-        const syncPanelState = (isCompleted) => {
-          if (titleCheckbox) {
-            titleCheckbox.checked = isCompleted;
+        if (!section) return;
+
+        function applyTaskState(card, ctaBtn, internalCheckbox, isCompleted) {
+          card.dataset.isCompleted = String(isCompleted);
+          internalCheckbox.checked = isCompleted;
+          card.classList.toggle('is-completed', isCompleted);
+
+          if (isCompleted) {
+            ctaBtn.textContent = 'Completed';
+            ctaBtn.style.background = '#e2e8f0';
+            ctaBtn.style.color = '#64748b';
+            ctaBtn.style.pointerEvents = 'none';
+          } else {
+            ctaBtn.textContent = 'Start Now';
+            ctaBtn.style.background = '';
+            ctaBtn.style.color = '';
+            ctaBtn.style.pointerEvents = '';
           }
-
-          setPanelTaskCompleted(isCompleted);
-        };
-
-        if (titleCheckbox) {
-          titleCheckbox.addEventListener('change', () => {
-            syncPanelState(titleCheckbox.checked);
-          });
         }
 
-        allTaskCards.forEach(card => {
+        allTaskCards.forEach((card, taskIndex) => {
           const ctaBtn = card.querySelector('.card-cta-btn');
           const internalCheckbox = card.querySelector('.execution-checkbox');
-          
-          card.dataset.isCompleted = 'false';
+          const task = section.tasks[taskIndex];
+
+          if (!task) return;
 
           if (ctaBtn && internalCheckbox) {
+            applyTaskState(card, ctaBtn, internalCheckbox, task.isCompleted);
+
+            internalCheckbox.addEventListener('change', () => {
+              task.isCompleted = internalCheckbox.checked;
+              applyTaskState(card, ctaBtn, internalCheckbox, task.isCompleted);
+              updateSectionCardUI(sectionId, sectionCard, titleCheckbox);
+            });
+
             ctaBtn.addEventListener('click', (e) => {
               e.stopPropagation();
 
-              if (card.dataset.isCompleted === 'true') {
+              if (task.isCompleted) {
                 return;
               }
 
-              card.dataset.isCompleted = 'true';
-              internalCheckbox.checked = true;
-              card.classList.add('is-completed');
-              
-              ctaBtn.textContent = 'Completed';
-              ctaBtn.style.background = '#e2e8f0';
-              ctaBtn.style.color = '#64748b';
-              ctaBtn.style.pointerEvents = 'none';
+              task.isCompleted = true;
+              applyTaskState(card, ctaBtn, internalCheckbox, true);
+              updateSectionCardUI(sectionId, sectionCard, titleCheckbox);
 
               alert('The student has completed the assignment!');
-
-              const allCompleted = allTaskCards.every(c => c.dataset.isCompleted === 'true');
-              if (allCompleted && titleCheckbox) {
-                syncPanelState(true);
-              }
             });
           }
         });
+
+        updateSectionCardUI(sectionId, sectionCard, titleCheckbox);
       }
     });
   </script>
@@ -4164,7 +4305,7 @@
             <path d="M12 20h9" />
             <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
           </svg>
-          <span style="font-weight:600; color:#475569; font-size:14px;">Your Tasks (2)</span>
+          <span style="font-weight:600; color:#475569; font-size:14px;">Today's Tasks (2)</span>
         </div>
         <div class="execution-scroller">
 
