@@ -1695,6 +1695,48 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      flex: 1; /* Allows spacing header horizontally */
+      min-width: 0;
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .subject-tag {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .tag-varc {
+      color: #d97706;
+      border: 1px solid #f59e0b;
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .tag-quant {
+      color: #7c3aed;
+      border: 1px solid #8b5cf6;
+      background: rgba(139, 92, 246, 0.05);
+    }
+
+    .tag-dilr {
+      color: #059669;
+      border: 1px solid #10b981;
+      background: rgba(16, 185, 129, 0.05);
     }
 
     .task-title {
@@ -3020,28 +3062,40 @@
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <span class="task-title">📘 Overview of genres</span>
+                        <div class="task-header">
+                          <span class="task-title">📘 Overview of genres</span>
+                          <span class="subject-tag tag-varc">VARC</span>
+                        </div>
                         <span class="task-subtitle">RC: Art, literature and culture</span>
                       </div>
                     </div>
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Practical Implementation">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <span class="task-title">⚙️ Averages</span>
+                        <div class="task-header">
+                          <span class="task-title">⚙️ Averages</span>
+                          <span class="subject-tag tag-quant">QUANT</span>
+                        </div>
                         <span class="task-subtitle">Theory: Shift & Scale</span>
                       </div>
                     </div>
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Something Related to AI">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <span class="task-title">🤖 Introduction to VARC</span>
+                        <div class="task-header">
+                          <span class="task-title">🤖 Introduction to VARC</span>
+                          <span class="subject-tag tag-varc">VARC</span>
+                        </div>
                         <span class="task-subtitle">Theory: The CAT VARC Section</span>
                       </div>
                     </div>
                     <div class="panel-task-item" role="button" tabindex="0" aria-label="Solve a Product Problem">
                       <span class="task-marker" aria-hidden="true"></span>
                       <div class="task-content">
-                        <span class="task-title">🧩 Linear Arrangements</span>
+                        <div class="task-header">
+                          <span class="task-title">🧩 Linear Arrangements</span>
+                          <span class="subject-tag tag-dilr">DILR</span>
+                        </div>
                         <span class="task-subtitle">Theory: Double / Multiple Rows</span>
                       </div>
                     </div>
