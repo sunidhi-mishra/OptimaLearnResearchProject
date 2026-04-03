@@ -3783,68 +3783,82 @@
       });
     }
 
-    // Task Execution Dialog Linkage
-    document.querySelectorAll('.panel-task-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        // Prevent opening if they click the checkbox marker itself
-        if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
-
-        const dialog = document.getElementById('executionDialog');
-        if (dialog) dialog.setAttribute('open', '');
-      });
-    });
-
-    // 🧩 STATE MANAGEMENT & INTERACTION LOGIC
-    // Core Principle: "Actions should drive state."
+    // 🧩 MULTI-DIALOG ISOLATION & STATE MANAGEMENT
+    // Core Principle: "Separate concerns mean separate instances."
     document.addEventListener('DOMContentLoaded', () => {
-      const dialog = document.getElementById('executionDialog');
-      if (!dialog) return;
+      const baseDialog = document.getElementById('executionDialog');
+      if (!baseDialog) return;
 
-      const titleCheckbox = dialog.querySelector('.execution-header-left .execution-checkbox');
-      const allTaskCards = Array.from(dialog.querySelectorAll('.execution-card'));
-
-      // 1. Checkbox control implementation: Enforce system state only
-      // Native clicks on checkbox are prevented via CSS pointer-events:none
+      const panelItems = document.querySelectorAll('.panel-task-item');
       
-      allTaskCards.forEach(card => {
-        const ctaBtn = card.querySelector('.card-cta-btn');
-        const internalCheckbox = card.querySelector('.execution-checkbox');
+      // Seed isolated dialogs & attach bindings
+      panelItems.forEach((item, index) => {
+        let dialogNode;
         
-        // Initial state definition
-        card.dataset.isCompleted = 'false';
+        if (index === 0) {
+          dialogNode = baseDialog;
+        } else {
+          dialogNode = baseDialog.cloneNode(true);
+          dialogNode.id = 'executionDialog_' + index;
+          document.body.appendChild(dialogNode);
+        }
 
-        if (ctaBtn && internalCheckbox) {
-          ctaBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-
-            // Handle edge case: No duplicate state change
-            if (card.dataset.isCompleted === 'true') {
-              return;
-            }
-
-            // 1. Update individual task state
-            card.dataset.isCompleted = 'true';
-            
-            // 2. Update UI: Checkbox and button feedback
-            internalCheckbox.checked = true;
-            card.classList.add('is-completed');
-            
-            ctaBtn.textContent = 'Completed';
-            ctaBtn.style.background = '#e2e8f0';
-            ctaBtn.style.color = '#64748b';
-            ctaBtn.style.pointerEvents = 'none'; // Lock interaction
-
-            // Notify user
-            alert('The student has completed the assignment!');
-
-            // 3. Parent Checkbox Logic (evaluate full completion)
-            const allCompleted = allTaskCards.every(c => c.dataset.isCompleted === 'true');
-            if (allCompleted && titleCheckbox) {
-              titleCheckbox.checked = true;
-            }
+        // Dynamically override inline onclick bindings for all instances
+        const closeBtn = dialogNode.querySelector('.execution-close-btn');
+        if (closeBtn) {
+          closeBtn.removeAttribute('onclick');
+          closeBtn.addEventListener('click', function() {
+            this.closest('dialog').removeAttribute('open');
           });
         }
+
+        // Wire clicking task to open ITS specific dialog
+        item.addEventListener('click', (e) => {
+          if (e.target.classList.contains('task-marker') || e.target.tagName === 'INPUT') return;
+          dialogNode.setAttribute('open', '');
+        });
+
+        // Hydrate Execution State Rules per instance
+        hydrateExecutionState(dialogNode);
       });
+
+      function hydrateExecutionState(dlg) {
+        const titleCheckbox = dlg.querySelector('.execution-header-left .execution-checkbox');
+        const allTaskCards = Array.from(dlg.querySelectorAll('.execution-card'));
+
+        allTaskCards.forEach(card => {
+          const ctaBtn = card.querySelector('.card-cta-btn');
+          const internalCheckbox = card.querySelector('.execution-checkbox');
+          
+          card.dataset.isCompleted = 'false';
+
+          if (ctaBtn && internalCheckbox) {
+            ctaBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+
+              if (card.dataset.isCompleted === 'true') {
+                return;
+              }
+
+              card.dataset.isCompleted = 'true';
+              internalCheckbox.checked = true;
+              card.classList.add('is-completed');
+              
+              ctaBtn.textContent = 'Completed';
+              ctaBtn.style.background = '#e2e8f0';
+              ctaBtn.style.color = '#64748b';
+              ctaBtn.style.pointerEvents = 'none';
+
+              alert('The student has completed the assignment!');
+
+              const allCompleted = allTaskCards.every(c => c.dataset.isCompleted === 'true');
+              if (allCompleted && titleCheckbox) {
+                titleCheckbox.checked = true;
+              }
+            });
+          }
+        });
+      }
     });
   </script>
 
