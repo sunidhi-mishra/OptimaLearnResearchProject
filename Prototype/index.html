@@ -1421,6 +1421,8 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
+      height: calc(100vh - 156px);
+      overflow: hidden;
       box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
       transform: translateX(120%);
       transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, width 260ms ease, padding 260ms ease;
@@ -1449,7 +1451,8 @@
       max-width: none;
       max-height: none;
       padding: 28px;
-      overflow: auto;
+      height: auto;
+      overflow: hidden;
     }
 
     .dashboard-view.panel-expanded .dashboard-main-content {
@@ -1469,6 +1472,7 @@
       align-items: center;
       padding-bottom: 20px;
       border-bottom: 1px solid #f1f5f9;
+      flex: 0 0 auto;
     }
 
     .panel-date-info {
@@ -1572,6 +1576,37 @@
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 12px;
+      flex: 0 0 auto;
+    }
+
+    .panel-scroll-area {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+      padding-right: 6px;
+      scrollbar-gutter: stable;
+      overscroll-behavior: contain;
+    }
+
+    .panel-scroll-area::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .panel-scroll-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .panel-scroll-area::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 999px;
+      border: 3px solid #ffffff;
+    }
+
+    .panel-scroll-area::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.5);
     }
 
     .panel-stat-card {
@@ -2894,54 +2929,56 @@
                 </div>
               </div>
 
-              <div>
-                <h4 class="panel-section-title">SECTIONS</h4>
-                <div class="panel-tasks">
-                  <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
-                    <span class="task-marker" aria-hidden="true"></span>
-                    <div class="task-content">
-                      <span class="task-title">📘 Overview of genres</span>
-                      <span class="task-subtitle">RC: Art, literature and culture</span>
+              <div class="panel-scroll-area">
+                <div>
+                  <h4 class="panel-section-title">SECTIONS</h4>
+                  <div class="panel-tasks">
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn PM Theory Concepts">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <span class="task-title">📘 Overview of genres</span>
+                        <span class="task-subtitle">RC: Art, literature and culture</span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Practical Implementation">
-                    <span class="task-marker" aria-hidden="true"></span>
-                    <div class="task-content">
-                      <span class="task-title">⚙️ Averages</span>
-                      <span class="task-subtitle">Theory: Shift & Scale</span>
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Practical Implementation">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <span class="task-title">⚙️ Averages</span>
+                        <span class="task-subtitle">Theory: Shift & Scale</span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Something Related to AI">
-                    <span class="task-marker" aria-hidden="true"></span>
-                    <div class="task-content">
-                      <span class="task-title">🤖 Introduction to VARC</span>
-                      <span class="task-subtitle">Theory: The CAT VARC Section</span>
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Learn Something Related to AI">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <span class="task-title">🤖 Introduction to VARC</span>
+                        <span class="task-subtitle">Theory: The CAT VARC Section</span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="panel-task-item" role="button" tabindex="0" aria-label="Solve a Product Problem">
-                    <span class="task-marker" aria-hidden="true"></span>
-                    <div class="task-content">
-                      <span class="task-title">🧩 Linear Arrangements</span>
-                      <span class="task-subtitle">Theory: Double / Multiple Rows</span>
+                    <div class="panel-task-item" role="button" tabindex="0" aria-label="Solve a Product Problem">
+                      <span class="task-marker" aria-hidden="true"></span>
+                      <div class="task-content">
+                        <span class="task-title">🧩 Linear Arrangements</span>
+                        <span class="task-subtitle">Theory: Double / Multiple Rows</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div>
-                <div class="panel-add-task">
-                  <span class="panel-section-title" style="margin:0;">ADD CUSTOM TASK</span>
-                  <button class="add-task-btn" type="button">+ New</button>
+                <div>
+                  <div class="panel-add-task">
+                    <span class="panel-section-title" style="margin:0;">ADD CUSTOM TASK</span>
+                    <button class="add-task-btn" type="button">+ New</button>
+                  </div>
+                  <div class="add-task-box">
+                    Click "+ New" or tap here to add a custom task...
+                  </div>
                 </div>
-                <div class="add-task-box">
-                  Click "+ New" or tap here to add a custom task...
-                </div>
-              </div>
 
-              <div>
-                <h4 class="panel-section-title">NOTES</h4>
-                <textarea class="panel-notes-area"
-                  placeholder="Jot down anything for this day — reflections, blockers, ideas, learnings..."></textarea>
+                <div>
+                  <h4 class="panel-section-title">NOTES</h4>
+                  <textarea class="panel-notes-area"
+                    placeholder="Jot down anything for this day — reflections, blockers, ideas, learnings..."></textarea>
+                </div>
               </div>
             </div>
           </section>
