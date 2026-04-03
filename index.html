@@ -1696,6 +1696,31 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
     }
 
+    .panel-task-item.is-completed {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      opacity: 0.72;
+    }
+
+    .panel-task-item.is-completed .task-title {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+
+    .panel-task-item.is-completed .task-subtitle,
+    .panel-task-item.is-completed .time-meta {
+      color: #94a3b8;
+    }
+
+    .panel-task-item.is-completed .task-marker {
+      border-color: #2563eb;
+      background: #2563eb;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 12px;
+    }
+
     .task-marker {
       width: 20px;
       height: 20px;
@@ -3812,6 +3837,11 @@
           });
         }
 
+        function setPanelTaskCompleted(isCompleted) {
+          item.classList.toggle('is-completed', isCompleted);
+          item.setAttribute('aria-checked', String(isCompleted));
+        }
+
         function hydrateDialogHeaderFromTask(taskItem) {
           const taskTitleEl = taskItem.querySelector('.task-title');
           const taskTagEl = taskItem.querySelector('.subject-tag');
@@ -3854,6 +3884,20 @@
         const titleCheckbox = dlg.querySelector('.execution-header-left .execution-checkbox');
         const allTaskCards = Array.from(dlg.querySelectorAll('.execution-card'));
 
+        const syncPanelState = (isCompleted) => {
+          if (titleCheckbox) {
+            titleCheckbox.checked = isCompleted;
+          }
+
+          setPanelTaskCompleted(isCompleted);
+        };
+
+        if (titleCheckbox) {
+          titleCheckbox.addEventListener('change', () => {
+            syncPanelState(titleCheckbox.checked);
+          });
+        }
+
         allTaskCards.forEach(card => {
           const ctaBtn = card.querySelector('.card-cta-btn');
           const internalCheckbox = card.querySelector('.execution-checkbox');
@@ -3881,7 +3925,7 @@
 
               const allCompleted = allTaskCards.every(c => c.dataset.isCompleted === 'true');
               if (allCompleted && titleCheckbox) {
-                titleCheckbox.checked = true;
+                syncPanelState(true);
               }
             });
           }
@@ -3956,8 +4000,8 @@
     }
 
     .execution-checkbox:checked {
-      background: #2563eb;
-      border-color: #2563eb;
+      background: #10b981;
+      border-color: #10b981;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
       background-position: center;
       background-repeat: no-repeat;
