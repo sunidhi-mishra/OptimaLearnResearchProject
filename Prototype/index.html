@@ -1589,13 +1589,19 @@
       cursor: default;
     }
 
-    .dashboard-day-card.is-active {
-      border-color: #3b82f6;
-      background: #eff6ff;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.12);
+    .dashboard-day-card.is-selected {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      box-shadow: inset 0 0 0 1px #cbd5e1;
     }
 
-    .dashboard-day-card.is-active::after {
+    .dashboard-day-card.is-today {
+      border-color: #3b82f6 !important;
+      background: #eff6ff !important;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.12) !important;
+    }
+
+    .dashboard-day-card.is-today::after {
       content: "";
       position: absolute;
       top: 14px;
@@ -2314,7 +2320,7 @@
                   <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span
                       class="dot pending"></span><span class="dot pending"></span></div>
                 </div>
-                <div class="dashboard-day-card is-active">
+                <div class="dashboard-day-card is-today is-selected">
                   <div class="day-num">03</div>
                   <div class="day-frac">0/4</div>
                   <div class="day-dots"><span class="dot pending"></span><span class="dot pending"></span><span
@@ -2856,10 +2862,10 @@
     // Dashboard Calendar Day Active State Toggle
     document.querySelectorAll('.dashboard-day-card:not(.is-empty)').forEach(card => {
       card.addEventListener('click', () => {
-        // Remove active state from all cards
-        document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-active'));
-        // Set clicked card as active
-        card.classList.add('is-active');
+        // Remove selected state from all cards
+        document.querySelectorAll('.dashboard-day-card').forEach(c => c.classList.remove('is-selected'));
+        // Set clicked card as selected
+        card.classList.add('is-selected');
       });
     });
   </script>
