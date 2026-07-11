@@ -1,5 +1,12 @@
 # 🎯 OptimaLearn — AI Study Planner Redesign
 
+<p>
+	<strong>🚀 Curious how the redesign feels? Check this out now:</strong><br />
+	<a href="https://optimalearn-research.web.app/" target="_blank" rel="noopener noreferrer">
+		<img src="https://img.shields.io/badge/Click%20To-Check%20Out%20The%20Live%20Demo-FF5A1F?style=for-the-badge" alt="Click to check out the live demo" />
+	</a>
+</p>
+
 
 ## 🧭 Overview
 

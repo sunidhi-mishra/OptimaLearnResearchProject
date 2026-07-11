@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "target": "optimalearn",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      ".github/**",
+      "*.pdf",
+      "*.xlsx"
+    ]
+  }
+}

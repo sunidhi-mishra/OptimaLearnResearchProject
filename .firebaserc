@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "silverjubilee-0503"
+  },
+  "targets": {
+    "silverjubilee-0503": {
+      "hosting": {
+        "optimalearn": [
+          "optimalearn-research"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
