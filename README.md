@@ -47,8 +47,8 @@ Supporting documents behind the OptimaLearn AI Study Planner redesign:
 - 📊 **[User Research Data & Interview Findings](https://docs.google.com/spreadsheets/d/1nfMkaKH88okreMkP8fMgVMz2IMrdv3kAz0D5EJaBw_c/edit?usp=sharing)**  
   Research data from 17 user interviews and 6 usability tests, documenting user pain points and usability findings.
 
-- 📝 **[Solution Document & Redesign Recommendations](https://docs.google.com/document/d/1VSwecVIhBCPXncfC67ChTAQKgPKcfZeHED3VOa2JUIU/edit?usp=sharing)**  
-  Detailed problem analysis, proposed onboarding improvements, and study planner redesign recommendations.
+- 📝 **[Problem Analysis & Solution Document](https://docs.google.com/document/d/1VSwecVIhBCPXncfC67ChTAQKgPKcfZeHED3VOa2JUIU/edit?usp=sharing)**  
+  Detailed problem analysis, breakdown of user research and usability findings, identifying onboarding friction and planner usability issues, with evidence-backed recommendations to simplify the experience
 
 ---
 
