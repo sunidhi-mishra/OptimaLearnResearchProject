@@ -40,10 +40,21 @@ The core finding: users arrive overwhelmed and looking for clarity. The current 
 
 ---
 
+## 📂 Research & Solution Documents
+
+Supporting documents behind the OptimaLearn AI Study Planner redesign:
+
+- 📊 **[User Research Data & Interview Findings](https://docs.google.com/spreadsheets/d/1nfMkaKH88okreMkP8fMgVMz2IMrdv3kAz0D5EJaBw_c/edit?usp=sharing)**  
+  Research data from 17 user interviews and 6 usability tests, documenting user pain points and usability findings.
+
+- 📝 **[Solution Document & Redesign Recommendations](https://docs.google.com/document/d/1VSwecVIhBCPXncfC67ChTAQKgPKcfZeHED3VOa2JUIU/edit?usp=sharing)**  
+  Detailed problem analysis, proposed onboarding improvements, and study planner redesign recommendations.
+
+---
+
 ## 💡 Key Insight
 
 Users came to OptimaLearn *because* they were overwhelmed preparing for CAT. The onboarding should have been their first moment of relief — instead, it recreated exactly the feeling they were trying to escape.
 
 The fix is not fewer features. It's a simpler entry point: one clear next action, questions in plain language, and a plan that feels like a guide — not a system to navigate.
 
----
